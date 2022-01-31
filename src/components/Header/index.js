@@ -47,10 +47,10 @@ const Headers = (props) => {
                 </div>
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
-                    href="https://faucet.polygon.technology/"
+                    href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
                   //to="/BuyCrypto"
                   >
-                Get Crypto
+                Buy ETH
               </a>
 
               <User setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
@@ -103,10 +103,10 @@ const Headers = (props) => {
           </div>
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
-              href="https://faucet.polygon.technology/"
+              href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
             //to="/BuyCrypto"
             >
-          Get Crypto
+          Buy ETH
         </a>
         <User setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
