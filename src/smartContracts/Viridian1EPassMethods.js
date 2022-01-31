@@ -2,7 +2,7 @@ import config from "../local-dev-config";
 import vNFTJSON from "../abis/Viridian1EPass.json";
 import Web3 from "web3";
 
-let web3 = new Web3(Web3.givenProvider);
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
 // export async function tokenURI(tokenId) {
 //     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
