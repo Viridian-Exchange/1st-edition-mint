@@ -9,6 +9,7 @@ import config from "./local-dev-config";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import  { Breakpoint, BreakpointProvider } from 'react-socks';
 //import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
 import {
   useCryptoPrices,
@@ -277,39 +278,41 @@ function App() {
 
   return (
       <CryptoPriceProvider>
-          <Router forceRefresh={true}>
-            {/*<AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>*/}
-            {/*{JSON.stringify(fetchedAndParsed)}*/}
-            <Switch>
-              <Route
-                  exact
-                  path="/"
-              >
-                <Redirect to="/mint" />
-              </Route>
-              <Route
-                  exact
-                  path="/mint"
-                  render={() => (
-                      <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                        <Drops account={account} />
-                      </Page>
-                  )}
-              />
-              <Route
-                  exact
-                  path="/faq"
-                  render={() => (
-                      <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                        <Faq />
-                      </Page>
-                  )}
-              />
-              <Route path="*">
-                <Redirect to="/mint" />
-              </Route>
-            </Switch>
-          </Router>
+        <BreakpointProvider>
+            <Router forceRefresh={true}>
+              {/*<AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>*/}
+              {/*{JSON.stringify(fetchedAndParsed)}*/}
+              <Switch>
+                <Route
+                    exact
+                    path="/"
+                >
+                  <Redirect to="/mint" />
+                </Route>
+                <Route
+                    exact
+                    path="/mint"
+                    render={() => (
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Drops account={account} />
+                        </Page>
+                    )}
+                />
+                <Route
+                    exact
+                    path="/faq"
+                    render={() => (
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Faq />
+                        </Page>
+                    )}
+                />
+                <Route path="*">
+                  <Redirect to="/mint" />
+                </Route>
+              </Switch>
+            </Router>
+        </BreakpointProvider>
       </CryptoPriceProvider>
   );
 }

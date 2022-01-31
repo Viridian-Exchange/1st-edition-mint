@@ -5,6 +5,7 @@ import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
 import {getNumNFTs, mint} from "../../smartContracts/Viridian1EPassMethods"
 import {useCryptoPrices} from "react-realtime-crypto-prices";
+import {Breakpoint} from 'react-socks';
 
 const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -26,11 +27,20 @@ const Drops = (props) => {
             <div className={cn("container", styles.container)}>
                 <p2 style={{color: 'grey'}}>Recieve a card-backed nft from the 1st edition Pokemon booster box break, along with platform perks!</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian 1st Edition Pass</h3>
-                <div style={{textAlign: 'center'}}>
-                    <video autoPlay loop muted playsInline style={{marginTop: '-4ex', maxWidth: '90ex', borderRadius: '25px'}}>
-                        <source src='https://d4xub33rt3s5u.cloudfront.net/passVidGoodLoop.mp4' type="video/mp4"/>
-                    </video>
-                </div>
+                <Breakpoint small down>
+                    <div style={{textAlign: 'center'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '40ex', borderRadius: '25px'}}>
+                            <source src='https://d4xub33rt3s5u.cloudfront.net/passVidGoodLoop.mp4' type="video/mp4"/>
+                        </video>
+                    </div>
+                </Breakpoint>
+                <Breakpoint medium up>
+                    <div style={{textAlign: 'center'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-4ex', maxWidth: '90ex', borderRadius: '25px'}}>
+                            <source src='https://d4xub33rt3s5u.cloudfront.net/passVidGoodLoop.mp4' type="video/mp4"/>
+                        </video>
+                    </div>
+                </Breakpoint>
                 <h2 style={{marginTop: '2ex', textAlign: 'center'}}>
                     Number to Mint
                 </h2>
