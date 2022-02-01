@@ -138,7 +138,7 @@ const Drops = (props) => {
                     <ProgressBar barContainerClassName="barContainer"
                                  completedClassName="barCompleted"
                                  labelClassName="barLabel"
-                                 completed={40} customLabel={minted + "/396"} />
+                                 completed={40} customLabel={minted + "/396 Minted"} />
                 </div>
             </div>
         </div>
