@@ -27,6 +27,15 @@ const Headers = (props) => {
                     >
                       Mint
                     </Link>
+                    <Link
+                        style={{marginTop: '2ex'}}
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/bridge"
+                        key={2}
+                    >
+                      Bridge
+                    </Link>
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
@@ -39,7 +48,7 @@ const Headers = (props) => {
                         className={styles.link}
                         activeClassName={styles.active}
                         to="/faq"
-                        key={1}
+                        key={3}
                     >
                       Help
                     </Link>
@@ -83,11 +92,19 @@ const Headers = (props) => {
               >
                 Mint
               </Link>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/bridge"
+                  key={2}
+              >
+                Bridge
+              </Link>
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
                   href="https://viridianexchange.com"
-                  key={2}
+                  key={3}
               >
                 About
               </a>
@@ -95,7 +112,7 @@ const Headers = (props) => {
                   className={styles.link}
                   activeClassName={styles.active}
                   to="/faq"
-                  key={3}
+                  key={4}
               >
                 Help
               </Link>

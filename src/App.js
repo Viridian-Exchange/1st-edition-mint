@@ -5,6 +5,7 @@ import "./styles/app.sass";
 import Page from "./components/Page";
 import Faq from "./screens/Faq";
 import Drops from "./screens/Drops";
+import Bridge from "./screens/Bridge";
 import config from "./local-dev-config";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
@@ -295,6 +296,15 @@ function App() {
                     render={() => (
                         <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                           <Drops account={account} />
+                        </Page>
+                    )}
+                />
+                <Route
+                    exact
+                    path="/bridge"
+                    render={() => (
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Bridge account={account} />
                         </Page>
                     )}
                 />

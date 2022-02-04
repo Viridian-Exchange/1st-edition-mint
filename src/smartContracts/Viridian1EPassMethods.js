@@ -64,6 +64,16 @@ export async function getNumNFTs(from) {
     return await vNFTABI.methods.getNumNFTs().call();
 }
 
+export async function getOwnedNFTs(from) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    const vNFTContractAddress = config.rinkeby_contract_addresses.v1ep_contract;
+    //alert(from)
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    let ownedNFTS = await vNFTABI.methods.getOwnedNFTs().call({from: from});
+    //alert(ownedNFTS);
+    return ownedNFTS;
+}
+
 //
 // export async function isApprovedForAll(owner, operator) {
 //     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
