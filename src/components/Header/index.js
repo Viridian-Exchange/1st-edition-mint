@@ -39,7 +39,7 @@ const Headers = (props) => {
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
-                        href="https://viridianexchange.com"
+                        href="https://viridian.community"
                         // key={0}
                     >
                       About
@@ -103,7 +103,7 @@ const Headers = (props) => {
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
-                  href="https://viridianexchange.com"
+                  href="https://viridian.community"
                   key={3}
               >
                 About
