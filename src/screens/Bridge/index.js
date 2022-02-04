@@ -12,6 +12,7 @@ const Bridge = (props) => {
     const [values, setValues] = useState([1]);
     const [minted, setMinted] = useState([]);
     const [toBridge, setToBridge] = useState([]);
+    const [fetched, setFetched] = useState(false);
     const prices = useCryptoPrices(["eth"]);
 
     const STEP = 1;
@@ -19,9 +20,13 @@ const Bridge = (props) => {
     const MAX = 10;
 
     useEffect(async () => {
+        console.log(props.account)
         setMinted(await getOwnedNFTs(props.account));
         setToBridge(await getOwnedNFTs(props.account));
-    }, []);
+        if (!fetched) {
+            setFetched(true)
+        }
+    }, [fetched]);
 
     function removeItemFromArray(arr, value) {
         var index = arr.indexOf(value);
@@ -72,7 +77,7 @@ const Bridge = (props) => {
                                 <img style={{maxWidth: '20ex'}} src='https://d4xub33rt3s5u.cloudfront.net/Viridian+1E+Pass+Preview.png'/>
                             </div>
                             <h4>
-                                Viridian Pass #{x}
+                                Viridian 1st Ed. Pass #{x}
                             </h4>
                         </div>))}
                 </div>
