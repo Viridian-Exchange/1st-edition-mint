@@ -3,7 +3,7 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {getOwnedNFTs, mint} from "../../smartContracts/Viridian1EPassMethods"
+import {getOwnedNFTs, bridge} from "../../smartContracts/Viridian1EPassMethods"
 import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 
@@ -57,22 +57,22 @@ const Bridge = (props) => {
                 {/*    </div>*/}
                 {/*</Breakpoint>*/}
                 <h2 style={{marginBottom: '7ex', marginTop: '-3ex', textAlign: 'left', color: 'grey'}}>
-                    Select NFTs to bridge
+                    Bridging all NFTs below
                 </h2>
                 {/*{toBridge}*/}
                 <div className={styles.list}>
                     {minted.map((x, index) => (
                         <div style={{marginRight: '5ex', textAlign: 'center'}}>
-                            <input type="checkbox"
-                                   checked={toBridge.includes(x)}
-                                   onChange={() => {
-                                        if (toBridge.includes(x)) {
-                                            setToBridge(removeItemFromArray([...toBridge], x));
-                                        }
-                                        else {
-                                            setToBridge([...toBridge].concat(x));
-                                        }
-                                    }}/>
+                            {/*<input type="checkbox"*/}
+                            {/*       checked={toBridge.includes(x)}*/}
+                            {/*       onChange={() => {*/}
+                            {/*            if (toBridge.includes(x)) {*/}
+                            {/*                setToBridge(removeItemFromArray([...toBridge], x));*/}
+                            {/*            }*/}
+                            {/*            else {*/}
+                            {/*                setToBridge([...toBridge].concat(x));*/}
+                            {/*            }*/}
+                            {/*        }}/>*/}
                             <div>
                                 <img style={{maxWidth: '20ex'}} src='https://d4xub33rt3s5u.cloudfront.net/Viridian+1E+Pass+Preview.png'/>
                             </div>
@@ -88,7 +88,7 @@ const Bridge = (props) => {
                         className={cn(styles.link, {
                             [styles.active]: true,
                         })}
-                        onClick={async () => {await mint(props.account, values[0])}}
+                        onClick={async () => {await bridge(props.account, toBridge)}}
                     >
                         Bridge 🌉
                     </button>

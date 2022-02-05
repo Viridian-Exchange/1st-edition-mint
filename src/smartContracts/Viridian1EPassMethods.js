@@ -56,6 +56,14 @@ export async function mint(from, numMint) {
     return await vNFTABI.methods.mint(numMint).send({from: from, value: (1000000000000000000 * numMint).toString()});
 }
 
+export async function bridge(from, bridgeNFTs) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    const vNFTContractAddress = config.rinkeby_contract_addresses.v1ep_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    return await vNFTABI.methods.bridge(bridgeNFTs).send({from: from});
+}
+
 export async function getNumNFTs(from) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.v1ep_contract;
