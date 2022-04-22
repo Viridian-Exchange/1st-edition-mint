@@ -3,7 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "3d-react-carousal": "^5.0.0",
+    "3d-react-carousel": "^1.0.0",
     "@biconomy/mexa": "^2.0.24",
+    "@crossmint/client-sdk-react-ui": "^0.1.5",
     "@imtbl/imx-sdk": "^1.1.0",
     "@progress/kendo-licensing": "^1.2.1",
     "@progress/kendo-react-animation": "^4.13.0",

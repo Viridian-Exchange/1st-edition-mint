@@ -5,6 +5,8 @@ import "./styles/app.sass";
 import Page from "./components/Page";
 import Faq from "./screens/Faq";
 import Drops from "./screens/Drops";
+import Open from "./screens/Open";
+import Verify from "./screens/Verify";
 import Bridge from "./screens/Bridge";
 import config from "./local-dev-config";
 import Web3 from "web3";
@@ -301,10 +303,19 @@ function App() {
                 />
                 <Route
                     exact
-                    path="/bridge"
+                    path="/open"
                     render={() => (
                         <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                          <Bridge account={account} />
+                          <Open account={account} />
+                        </Page>
+                    )}
+                />
+                <Route
+                    exact
+                    path="/verify"
+                    render={() => (
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Verify account={account} />
                         </Page>
                     )}
                 />

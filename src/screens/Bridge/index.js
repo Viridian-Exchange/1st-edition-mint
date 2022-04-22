@@ -60,7 +60,7 @@ const Bridge = (props) => {
                     Bridging all NFTs below
                 </h2>
                 {/*{toBridge}*/}
-                <div className={styles.list}>
+                {minted.length > 0 ? <div className={styles.list}>
                     {minted.map((x, index) => (
                         <div style={{marginRight: '5ex', textAlign: 'center'}}>
                             {/*<input type="checkbox"*/}
@@ -80,7 +80,7 @@ const Bridge = (props) => {
                                 Viridian 1st Ed. Pass #{x}
                             </h4>
                         </div>))}
-                </div>
+                </div> : <div style={{textAlign: 'center'}}>No NFTs to bridge</div>}
 
                 <div style={{textAlign: 'center', marginTop: '4ex'}}>
                     {/*{JSON.stringify(props)}*/}

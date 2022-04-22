@@ -6,6 +6,7 @@ import {getTrackBackground, Range} from "react-range";
 import {getNumNFTs, mint} from "../../smartContracts/Viridian1EPassMethods"
 import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -21,23 +22,25 @@ const Drops = (props) => {
         setMinted(await getNumNFTs());
     }, []);
 
+    document.getElementsByClassName('crossmintParagraph-2-2-3 crossmintParagraph-d3-2-2-7').innerText = 'Hide';
+
   return (
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <p2 style={{color: 'grey'}}>Recieve a card-backed nft from the 1st edition Pokemon booster box break, along with platform perks!</p2>
-                <h3 className={cn("h3", styles.title)}>Mint Viridian 1st Edition Pass</h3>
+                <p2 style={{color: 'grey'}}>Viridian Packs contain physically backed NFTs</p2>
+                <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '40ex', borderRadius: '25px'}}>
-                            <source src='https://d4xub33rt3s5u.cloudfront.net/passVidGoodLoop.mp4' type="video/mp4"/>
+                            <source src='https://viridian-images.s3.us-east-2.amazonaws.com/Main_0001-0075.mp4' type="video/mp4"/>
                         </video>
                     </div>
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-4ex', maxWidth: '90ex', borderRadius: '25px'}}>
-                            <source src='https://d4xub33rt3s5u.cloudfront.net/passVidGoodLoop.mp4' type="video/mp4"/>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-4ex', maxWidth: '43ex', borderRadius: '25px'}}>
+                            <source src='https://viridian-images.s3.us-east-2.amazonaws.com/Main_0001-0075.mp4' type="video/mp4"/>
                         </video>
                     </div>
                 </Breakpoint>
@@ -58,14 +61,16 @@ const Drops = (props) => {
                                 ...props.style,
                                 height: "36px",
                                 display: "flex",
-                                width: "100%",
+                                width: "66.5%",
+                                alignSelf: "right",
+                                justifyContent: "right",
                             }}
                         >
                             <div
                                 ref={props.ref}
                                 style={{
                                     height: "8px",
-                                    width: "100%",
+                                    width: "50%",
                                     borderRadius: "4px",
                                     background: getTrackBackground({
                                         values,
@@ -74,6 +79,7 @@ const Drops = (props) => {
                                         max: MAX,
                                     }),
                                     alignSelf: "center",
+                                    justifyContent: "center",
                                 }}
                             >
                                 {children}
@@ -104,9 +110,11 @@ const Drops = (props) => {
                                     fontSize: "14px",
                                     lineHeight: "18px",
                                     fontFamily: "Poppins",
-                                    padding: "4px 8px",
+                                    padding: "4px 4px",
                                     borderRadius: "8px",
                                     backgroundColor: "#141416",
+                                    justifyContent: "center",
+                                    alignItems: "center",
                                 }}
                             >
                                 {values[0]}
@@ -114,6 +122,7 @@ const Drops = (props) => {
                         </div>
                     )}
                 />
+                </div>
                 <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                     <div className={styles.wallet}>
                         <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
@@ -130,15 +139,27 @@ const Drops = (props) => {
                             [styles.active]: true,
                         })}
                         onClick={async () => {await mint(props.account, values[0])}}
-                    >
-                        MINT 💎
+                    > <>
+                        <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /> Buy with Polygon ETH </>
                     </button>
-                </div>
+                    <CrossmintPayButton
+                        collectionTitle="Viridian Genesis Packs"
+                        collectionDescription="All Viridian Genesis packs contain physically-backed NFTs"
+                        collectionPhoto="<OPT_URL_TO_PHOTO_COVER>"
+                        clientId="<YOUR_CLIENT_ID>"
+                        className="my-custom-crossmint-button"
+                        buttonText="Mint with Credit Card"
+                        mintConfig={{
+                            price: "0.1",
+                            _to: "$CrossmintUserAddress",
+                            _mintAmount: values[0]
+                        }}
+                    />
                 <div style={{textAlign: 'center', marginTop: '3ex'}}>
                     <ProgressBar barContainerClassName="barContainer"
                                  completedClassName="barCompleted"
                                  labelClassName="barLabel"
-                                 completed={40} customLabel={minted + "/396 Minted"} />
+                                 completed={40} customLabel={minted + "/2000 Minted"} />
                 </div>
             </div>
         </div>

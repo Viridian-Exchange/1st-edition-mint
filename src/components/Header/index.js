@@ -31,15 +31,24 @@ const Headers = (props) => {
                         style={{marginTop: '2ex'}}
                         className={styles.link}
                         activeClassName={styles.active}
-                        to="/bridge"
+                        to="/open"
                         key={2}
                     >
-                      Bridge
+                      Open
+                    </Link>
+                    <Link
+                        style={{marginTop: '2ex'}}
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/verify"
+                        key={2}
+                    >
+                      Verify
                     </Link>
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
-                        href="https://viridian.community"
+                        href="https://viridianexchange.com"
                         // key={0}
                     >
                       About
@@ -57,6 +66,7 @@ const Headers = (props) => {
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
                     href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
+                 target="_blank"
                   //to="/BuyCrypto"
                   >
                 Buy ETH
@@ -95,15 +105,23 @@ const Headers = (props) => {
               <Link
                   className={styles.link}
                   activeClassName={styles.active}
-                  to="/bridge"
-                  key={2}
+                  to="/open"
+                  key={1}
               >
-                Bridge
+                Open
+              </Link>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/verify"
+                  key={1}
+              >
+                Verify
               </Link>
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
-                  href="https://viridian.community"
+                  href="https://viridianexchange.com"
                   key={3}
               >
                 About
@@ -120,6 +138,7 @@ const Headers = (props) => {
           </div>
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
+           target="_blank"
               href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
             //to="/BuyCrypto"
             >
