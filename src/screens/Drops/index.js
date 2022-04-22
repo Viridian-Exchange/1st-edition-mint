@@ -39,7 +39,7 @@ const Drops = (props) => {
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-4ex', maxWidth: '43ex', borderRadius: '25px'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '43ex', borderRadius: '25px'}}>
                             <source src='https://viridian-images.s3.us-east-2.amazonaws.com/Main_0001-0075.mp4' type="video/mp4"/>
                         </video>
                     </div>
