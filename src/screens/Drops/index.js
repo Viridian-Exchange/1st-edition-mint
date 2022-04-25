@@ -3,8 +3,8 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {getNumNFTs, mint} from "../../smartContracts/Viridian1EPassMethods"
-import {useCryptoPrices} from "react-realtime-crypto-prices";
+import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods"
+//import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
@@ -12,14 +12,14 @@ const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [values, setValues] = useState([1]);
     const [minted, setMinted] = useState(0);
-    const prices = useCryptoPrices(["eth"]);
+    //const prices = useCryptoPrices(["eth"]);
 
     const STEP = 1;
     const MIN = 1;
     const MAX = 10;
 
     useEffect(async () => {
-        setMinted(await getNumNFTs());
+        setMinted(await totalSupply());
     }, []);
 
     document.getElementsByClassName('crossmintParagraph-2-2-3 crossmintParagraph-d3-2-2-7').innerText = 'Hide';
@@ -126,11 +126,11 @@ const Drops = (props) => {
                 <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                     <div className={styles.wallet}>
                         <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                        {values[0]}
+                        {values[0] / 10}
                     </div>
-                    {prices.eth && <p2 style={{color: 'grey'}}>
-                        ${((values[0] * prices.eth) * 100) / 100}
-                    </p2>}
+                    {/*{prices.eth && <p2 style={{color: 'grey'}}>*/}
+                    {/*    ${(((values[0] / 10) * prices.eth) * 100) / 100}*/}
+                    {/*</p2>}*/}
                 </h3>
                 <div style={{textAlign: 'center', marginTop: '4ex'}}>
                     {/*{JSON.stringify(props)}*/}
@@ -143,16 +143,16 @@ const Drops = (props) => {
                         <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /> Buy with Polygon ETH </>
                     </button>
                     <CrossmintPayButton
-                        collectionTitle="Viridian Genesis Packs"
-                        collectionDescription="All Viridian Genesis packs contain physically-backed NFTs"
-                        collectionPhoto="<OPT_URL_TO_PHOTO_COVER>"
-                        clientId="<YOUR_CLIENT_ID>"
+                        collectionTitle="Viridian Genesis Pack Testnet"
+                        collectionDescription="Viridian testnet pack system"
+                        collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
+                        clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
                         className="my-custom-crossmint-button"
-                        buttonText="Mint with Credit Card"
                         mintConfig={{
+                            type: "erc-721",
                             price: "0.1",
-                            _to: "$CrossmintUserAddress",
-                            _mintAmount: values[0]
+                            _numMint: values[0],
+                            _to: props.account
                         }}
                     />
                 <div style={{textAlign: 'center', marginTop: '3ex'}}>

@@ -9,7 +9,7 @@ module.exports = {
     },
 
     rinkeby_contract_addresses: {
-        v1ep_contract: "0xc6A0b711A31807d8435C8618f7127424a9d0cE5a"
+        vgp_contract: "0xfEd661312b7ce690bbAc2886986fbaB5620878cd"
     },
 
     ropsten_contract_addresses_old: {

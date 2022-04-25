@@ -3,7 +3,7 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {getNumNFTs, mint} from "../../smartContracts/Viridian1EPassMethods"
+import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods"
 import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 import {Carousel} from '3d-react-carousal';
@@ -36,7 +36,7 @@ const Drops = (props) => {
     const MAX = 10;
 
     useEffect(async () => {
-        setMinted(await getNumNFTs());
+        setMinted(await totalSupply());
     }, []);
 
     // let slides = [

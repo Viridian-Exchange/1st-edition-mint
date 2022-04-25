@@ -17,6 +17,15 @@ import {
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+
+const wcProvider = new WalletConnectProvider({
+  rpc: {1: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"},
+  bridge: "https://bridge.walletconnect.org",
+  qrcodeModalOptions: {
+  },
+});
+
 let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
