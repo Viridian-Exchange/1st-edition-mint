@@ -65,11 +65,11 @@ const Headers = (props) => {
                 </div>
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
-                    href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
-                 target="_blank"
+                    href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+                 target="_blank" rel="noopener noreferrer"
                   //to="/BuyCrypto"
                   >
-                Buy ETH
+                Buy Polygon ETH
               </a>
 
               <User setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
@@ -122,6 +122,7 @@ const Headers = (props) => {
                   className={styles.link}
                   // activeClassName={styles.active}
                   href="https://viridianexchange.com"
+                  target="_blank" rel="noopener noreferrer"
                   key={3}
               >
                 About
@@ -138,11 +139,11 @@ const Headers = (props) => {
           </div>
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
-           target="_blank"
-              href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
+           target="_blank" rel="noopener noreferrer"
+              href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
             //to="/BuyCrypto"
             >
-          Buy ETH
+          Buy Polygon ETH
         </a>
         <User setVisibleModalWallets={props.setVisibleModalWallets} setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>

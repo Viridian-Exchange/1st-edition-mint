@@ -4,7 +4,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
 import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods"
-import {useCryptoPrices} from "react-realtime-crypto-prices";
+//import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 import {Carousel} from '3d-react-carousal';
 
@@ -29,7 +29,11 @@ const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [values, setValues] = useState([1]);
     const [minted, setMinted] = useState(0);
-    const prices = useCryptoPrices(["eth"]);
+    //const prices = useCryptoPrices(["eth"]);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [loadingOpening, setLoadingOpening] = useState(false);
+    const [showOpeningAnimation, setShowOpeningAnimation] = useState(false);
+    const [showOpenedCard, setShowOpenedCard] = useState(false);
 
     const STEP = 1;
     const MIN = 1;
@@ -49,13 +53,15 @@ const Drops = (props) => {
 
     const callback = function(index){
         console.log("callback",index);
+        setCurrentIndex(index);
     }
 
   return (
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <h3 className={cn("h3", styles.title)}>Open Viridian Genesis Pack</h3>
+                <p2 style={{color: 'grey'}}>Reveal the physically-backed NFT inside!</p2>
+                <h3 className={cn("h3", styles.title)}>Open Viridian Genesis Packs</h3>
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <Carousel slides={slides} onSlideChange={callback}/>
@@ -86,7 +92,9 @@ const Drops = (props) => {
                         })}
                         onClick={async () => {await mint(props.account, values[0])}}
                     >
-                        Open 🃏
+                        <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
+                             src='/trading_card_icon.svg'
+                             alt='ETH' /> {"Open Pack #" + currentIndex}
                     </button>
                 </div>
             </div>

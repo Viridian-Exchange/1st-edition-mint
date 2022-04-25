@@ -18,6 +18,7 @@ import {
 } from "react-realtime-crypto-prices";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import WalletSelector from "../../WalletSelector";
 
 const wcProvider = new WalletConnectProvider({
   rpc: {1: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"},
@@ -39,6 +40,7 @@ const items = (account) => [
 
 const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask, setVisibleModalWallets}) => {
   const [visible, setVisible] = useState(false);
+  const [walletVis, setWalletVis] = useState(false);
   const [balance, setBalance] = useState(0);
   //const prices = useCryptoPrices(["eth"]);
 
@@ -257,13 +259,18 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   }
   else {
     return (
-        <OutsideClickHandler onOutsideClick={() => {}}>
+        <OutsideClickHandler onOutsideClick={() => {setWalletVis(false)}}>
           <div className={cn(styles.user, className)}>
-            <div className={styles.head} onClick={async () => {setVisibleModalWallets(true); await connectWallet()}}>
+           <div className={styles.head} onClick={() => setWalletVis(!visible)}>
               <div className={styles.disconnectedWallet}>
                 Connect Wallet
               </div>
             </div>
+          {walletVis && (
+              <div className={styles.body}>
+                <WalletSelector/>
+              </div>
+          )}
           </div>
         </OutsideClickHandler>
     );

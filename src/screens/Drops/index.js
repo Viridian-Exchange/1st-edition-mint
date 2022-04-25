@@ -28,7 +28,7 @@ const Drops = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <p2 style={{color: 'grey'}}>Viridian Packs contain physically backed NFTs</p2>
+                <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
@@ -47,6 +47,7 @@ const Drops = (props) => {
                 <h2 style={{marginTop: '2ex', textAlign: 'center'}}>
                     Number to Mint
                 </h2>
+                <div style={{textAlign: 'center'}} >
                 <Range
                     values={values}
                     step={STEP}
@@ -61,9 +62,8 @@ const Drops = (props) => {
                                 ...props.style,
                                 height: "36px",
                                 display: "flex",
-                                width: "66.5%",
-                                alignSelf: "right",
-                                justifyContent: "right",
+                                alignSelf: "center",
+                                justifyContent: "center",
                             }}
                         >
                             <div
@@ -123,6 +123,7 @@ const Drops = (props) => {
                     )}
                 />
                 </div>
+                </div>
                 <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                     <div className={styles.wallet}>
                         <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
@@ -134,28 +135,41 @@ const Drops = (props) => {
                 </h3>
                 <div style={{textAlign: 'center', marginTop: '4ex'}}>
                     {/*{JSON.stringify(props)}*/}
-                    <button
+                    {props.account ? <button
                         className={cn(styles.link, {
                             [styles.active]: true,
                         })}
                         onClick={async () => {await mint(props.account, values[0])}}
                     > <>
-                        <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /> Buy with Polygon ETH </>
-                    </button>
-                    <CrossmintPayButton
-                        collectionTitle="Viridian Genesis Pack Testnet"
-                        collectionDescription="Viridian testnet pack system"
-                        collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
-                        clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
-                        className="my-custom-crossmint-button"
-                        mintConfig={{
-                            type: "erc-721",
-                            price: "0.1",
-                            _numMint: values[0],
-                            _to: props.account
-                        }}
-                    />
-                <div style={{textAlign: 'center', marginTop: '3ex'}}>
+                        <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
+                             src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
+                             alt='ETH' /> Buy with Polygon ETH </>
+                    </button> : <button
+                        className={cn(styles.link, {
+                            [styles.active]: false,
+                        })}
+                    > <div style={{color: 'white'}}>
+                        <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
+                             src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
+                             alt='ETH' />
+                        Connect Wallet to Mint w/ Ξ</div>
+                    </button>}
+                    <div style={{display: 'flex', justifyContent: 'center', width: '100%', marginTop: '3ex'}}>
+                        <CrossmintPayButton
+                            collectionTitle="Viridian Genesis Pack Testnet"
+                            collectionDescription="Viridian testnet pack system"
+                            collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
+                            clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                            className="my-custom-crossmint-button"
+                            mintConfig={{
+                                type: "erc-721",
+                                price: "0.1",
+                                _numMint: values[0],
+                                _to: props.account
+                            }}
+                        />
+                    </div>
+                <div style={{marginTop: '3ex'}}>
                     <ProgressBar barContainerClassName="barContainer"
                                  completedClassName="barCompleted"
                                  labelClassName="barLabel"
