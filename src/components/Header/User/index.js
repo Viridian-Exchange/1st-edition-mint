@@ -37,10 +37,10 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask}) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask, setVisibleModalWallets}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
-  const prices = useCryptoPrices(["eth"]);
+  //const prices = useCryptoPrices(["eth"]);
 
 
 
@@ -199,7 +199,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                           {ethBalance}
-                          <>{prices.eth && <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>}</>
+                          {/*<>{prices.eth && <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>}</>*/}
                           {/*<span className={styles.currency}>ETH</span>*/}
                         </div>}</div>
                       </div>
@@ -259,7 +259,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     return (
         <OutsideClickHandler onOutsideClick={() => {}}>
           <div className={cn(styles.user, className)}>
-            <div className={styles.head} onClick={async () => {isMetaMaskInstalled(); await connectWallet()}}>
+            <div className={styles.head} onClick={async () => {setVisibleModalWallets(true); await connectWallet()}}>
               <div className={styles.disconnectedWallet}>
                 Connect Wallet
               </div>

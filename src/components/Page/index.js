@@ -10,11 +10,13 @@ import Footer from "../Footer";
 // import Image from "../Image";
 import Web3 from "web3";
 import Modal from "../Modal";
+import WalletSelector from "../WalletSelector";
 
 const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [networkName, setNetworkName] = useState("peen");
     const [visibleModalWrongNetwork, setVisibleModalWrongNetwork] = useState(false);
+    const [visibleModalWallets, setVisibleModalWallets] = useState(false);
 
   let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
     // console.log(networkName === "ropsten");
@@ -38,11 +40,19 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                   }}
               >
               </Modal>}
+
+              <Modal
+                  visible={visibleModalWallets}
+                  onClose={() => setVisibleModalWallets(false)}
+              >
+                  <WalletSelector />
+              </Modal>
+
               {/*{account}*/}
               {/*{JSON.stringify(location.state)}*/}
               {/*{JSON.stringify(nfts)}*/}
               {/*{JSON.stringify(initialLoaded)}*/}
-              <Header setPromptInstallMetamask={setPromptInstallMetamask} vextBalance={vextBalance} setVextBalance={setVextBalance} ethBalance={ethBalance} setEthBalance={setEthBalance} account={account}
+              <Header setVisibleModalWallets={setVisibleModalWallets} setPromptInstallMetamask={setPromptInstallMetamask} vextBalance={vextBalance} setVextBalance={setVextBalance} ethBalance={ethBalance} setEthBalance={setEthBalance} account={account}
                       setAccount={setAccount} connected={connected} setConnected={setConnected} />
               <div className={styles.inner}>{children}</div>
               <Footer/>
