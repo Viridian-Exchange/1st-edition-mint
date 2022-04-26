@@ -41,15 +41,38 @@ button.my-custom-crossmint-button
   background-color: grey
   //background: none
   +button-2
-  color: $neutrals4
+  color: $neutrals8
   transition: all .2s
   &:hover
-    color: $neutrals3
+    color: $blue
     +dark
-      color: $neutrals6
+      color: $blue
   &.active
     background: $neutrals3
-    color: $neutrals8
+    color: $blue
+    +dark
+      background: $neutrals8
+      color: $neutrals2
+  &:nth-child(n+5)
+    +d
+      display: none
+
+.linklr
+  margin: 0 6px
+  padding: 13px 22px
+  border-radius: 22px
+  background-color: grey
+  //background: none
+  +button-2
+  color: $neutrals8
+  transition: all .2s
+  &:hover
+    color: green
+    +dark
+      color: green
+  &.active
+    background: $neutrals3
+    color: green
     +dark
       background: $neutrals8
       color: $neutrals2
