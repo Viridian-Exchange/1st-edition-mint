@@ -22,7 +22,7 @@ const Headers = (props) => {
                         style={{marginTop: '2ex'}}
                         className={styles.link}
                         activeClassName={styles.active}
-                        to="/mint"
+                        to="/genesis-drop"
                         key={1}
                     >
                       Mint
@@ -97,7 +97,7 @@ const Headers = (props) => {
               <Link
                   className={styles.link}
                   activeClassName={styles.active}
-                  to="/mint"
+                  to="/genesis-drop"
                   key={1}
               >
                 Mint

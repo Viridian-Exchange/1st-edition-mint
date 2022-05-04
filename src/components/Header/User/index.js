@@ -49,7 +49,7 @@ const User = ({ className, setAccount, connected, setConnected, userInfo, setUse
   //const [ethBalance, setEthBalance] = useState(0);
   //const [vextBalance, setVextBalance] = useState(0);
 
-  const { active, chainId, account } = useWeb3React();
+  const { library, active, chainId, account } = useWeb3React();
 
   useEffect(async () => {
     if(account) {
@@ -152,23 +152,24 @@ const User = ({ className, setAccount, connected, setConnected, userInfo, setUse
         <div className={styles.head} onClick={() => setVisible(!visible)}>
           {(!vextBalance) ?
               [<div className={styles.avatar}>
-                <ReactLoading type={'spin'} color={'#bf9a36'} height={'100%'} width={'100%'} />
+                <Icon name="wallet" fill='white' size="32" />
               </div>,
                 <div className={styles.wallet}>
-                  <span className={styles.currency}><img style={{width: '3ex', marginTop: '-.4ex', marginLeft: '-2ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /></span>
+                  {account.toString().substring(0, 2) + "..." + account.toString().substring(38)}
                 </div>] : [<div className={styles.avatar}>
                 <Icon name="wallet" fill='white' size="32" />
             </div>,
                 <div>{(ethBalance === 0) && (parseVextBalance(vextBalance) !== "0.00") ? <div className={styles.wallet}>
           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
             </div> : <div className={styles.wallet}>
-                  <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                  {ethBalance}
+                  {/*<img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />*/}
+                  {/*{ethBalance}*/}
+                  {account.toString().substring(0, 2) + "..." + account.toString().substring(38)}
                 </div>}</div>]}
         </div>
             {visible && (
                 <div className={styles.body}>
-                  <div className={styles.name}>{active + " " + account}</div>
+                  <div className={styles.name}>{JSON.stringify(library)}</div>
                   <CopyToClipboard text={account}
                       // onCopy={() => this.setState({copied: true})}
                   >

@@ -3,14 +3,13 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods"
-//import {useCryptoPrices} from "react-realtime-crypto-prices";
+import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods";
 import {Breakpoint} from 'react-socks';
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import ReactLoading from "react-loading";
 import Icon from "../../components/Icon";
 import Countdown from "react-countdown";
-import {useWeb3React} from "@web3-react/core";
+import { useWeb3React } from '@web3-react/core';
 
 const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -22,7 +21,6 @@ const Drops = (props) => {
     const [whitelistMintingEnabled, setWhitelistMintingEnabled] = useState(true);
     const [addressOnWhitelist, setAddressOnWhitelist] = useState(true);
     const [publicMintingEnabled, setPublicMintingEnabled] = useState(false);
-    //const prices = useCryptoPrices(["eth"]);
 
     const STEP = 1;
     const MIN = 1;
@@ -30,7 +28,7 @@ const Drops = (props) => {
 
     useEffect(async () => {
         setMinted(await totalSupply());
-    }, []);
+    }, [])
 
     document.getElementsByClassName('crossmintParagraph-2-2-3 crossmintParagraph-d3-2-2-7').innerText = 'Hide';
 
@@ -97,7 +95,7 @@ const Drops = (props) => {
 
                 {(publicMintingEnabled || (whitelistMintingEnabled && addressOnWhitelist)) && <div>
                     <h2 style={{marginTop: '2ex', textAlign: 'center'}}>
-                        Number to Mint
+                        Mint Amount
                     </h2>
                     <div style={{textAlign: 'center'}} >
                     <Range
@@ -180,12 +178,8 @@ const Drops = (props) => {
                             <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                             {values[0] / 10}
                         </div>
-                        {/*{prices.eth && <p2 style={{color: 'grey'}}>*/}
-                        {/*    ${(((values[0] / 10) * prices.eth) * 100) / 100}*/}
-                        {/*</p2>}*/}
                     </h3>
                     <div style={{textAlign: 'center', marginTop: '4ex'}}>
-                        {/*{JSON.stringify(props)}*/}
                         {props.account ? <div> {!minting ? <button
                             className={cn(styles.link, {})}
                             onClick={async () => {setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);}}

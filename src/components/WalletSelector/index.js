@@ -1,11 +1,10 @@
-import React from "react";
+import React, {useEffect} from "react";
 import cn from "classnames";
 import styles from "./SignupPrompt.module.sass";
 import { useWeb3React } from '@web3-react/core'
 import { WalletLinkConnector } from "@web3-react/walletlink-connector";
 import { WalletConnectConnector } from "@web3-react/walletconnect-connector";
 import { InjectedConnector } from "@web3-react/injected-connector";
-import { MagicConnector } from "@web3-react/magic-connector";
 
 const CoinbaseWallet = new WalletLinkConnector({
     url: `https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js`,
@@ -25,27 +24,30 @@ const Injected = new InjectedConnector({
 
 //TODO: PASS IN USERINFO AND UPDATE THIS WHEN PUSHED TO DYNAMO
 // SET FETCHED PROP SO WHEN THAT CHANGES, FETCHES THE USER AND SETS IT TO USERINFO
-const WalletSelector = ({ className, account, setPromptSetup, setUserInfo}) => {
-    // async function HandleAddressLink() {
-    //      await HandleAddUserSimple(setUserInfo, account);
-    // }
+const WalletSelector = ({ className }) => {
 
-    const { activate, deactivate } = useWeb3React();
+    const { library, activate, deactivate, account } = useWeb3React();
 
   return (
     <div className={cn(className, styles.transfer)} style={{textAlign: 'center', marginTop: '-2ex'}}>
       <div className={cn("h4", styles.info)}>Wallet Providers</div>
         <div className={styles.btns}>
-            {/*<Link className={cn("button", styles.button)} onClick={async () => {*/}
-            {/*    await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {*/}
-            {/*        setPromptSetup(false);});*/}
-            {/*}} to="/profile">Go to Profile</Link>*/}
-            <a className={cn("button-stroke", styles.button)} onClick={() => {  activate(Injected) }}>
+            <a className={cn("button-stroke", styles.button)} onClick={async () => { await activate(Injected).then(() => {
+                localStorage.setItem('connection', 'mm');
+                alert(account);
+                localStorage.setItem('lastAddConn', account);
+            }) }}>
                 <img src='/images/content/metamask-fox.svg' style={{maxWidth: '5ex', marginRight: '2ex', marginLeft: '-4ex'}}/>Metamask</a>
-            <a className={cn("button-stroke", styles.button)} onClick={() => { activate(WalletConnect) }}>
+            <a className={cn("button-stroke", styles.button)} onClick={async () => { await activate(WalletConnect).then(() => {
+                localStorage.setItem('connection', 'wc');
+                localStorage.setItem('lastAddConn', account);
+            }) }}>
                 <img src='https://d1nxzqpcg2bym0.cloudfront.net/google_play/com.connectwallet.protocol/a7569c36-9df9-11eb-b409-2380f9a26ccc/128x128'
                      style={{maxWidth: '5ex', marginRight: '2ex'}}/>WalletConnect</a>
-            <a className={cn("button-stroke", styles.button)} onClick={() => { activate(CoinbaseWallet) }}>
+            <a className={cn("button-stroke", styles.button)} onClick={async () => { await activate(CoinbaseWallet).then(() => {
+                localStorage.setItem('connection', 'cb');
+                localStorage.setItem('lastAddConn', account);
+            }) }}>
                 <img src='/cb-wallet.svg'
                      style={{maxWidth: '5ex', marginRight: '2ex', marginLeft: '-5.5ex'}}/>Coinbase</a>
         </div>
