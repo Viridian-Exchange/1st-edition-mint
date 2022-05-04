@@ -19,6 +19,7 @@ import {
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import WalletSelector from "../../WalletSelector";
+import { useWeb3React } from '@web3-react/core'
 
 const wcProvider = new WalletConnectProvider({
   rpc: {1: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"},
@@ -31,17 +32,12 @@ let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.al
 
 //TODO: Instead of account, pass in user with all info through to profile/user
 const items = (account) => [
-  {
-    title: "Disconnect",
-    icon: "exit",
-    url: "/",
-  },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask, setVisibleModalWallets}) => {
+const User = ({ className, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask, setVisibleModalWallets}) => {
   const [visible, setVisible] = useState(false);
   const [walletVis, setWalletVis] = useState(false);
-  const [balance, setBalance] = useState(0);
+  //const [balance, setBalance] = useState(0);
   //const prices = useCryptoPrices(["eth"]);
 
 
@@ -53,17 +49,13 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   //const [ethBalance, setEthBalance] = useState(0);
   //const [vextBalance, setVextBalance] = useState(0);
 
-  useEffect(() => {
-    if (Web3.givenProvider) {
-      const connect = async () => {
-        //alert("connecting wallet")
-        await connectWallet();
-        //console.log(connected);
-        //alert()
-      }
-      //connect().then(() => setConnected(true));
+  const { active, chainId, account } = useWeb3React();
+
+  useEffect(async () => {
+    if(account) {
+      setVextBalance(parseVextBalance(await getVEXTBalance()));
     }
-  }, [web3.givenProvider]);
+  }, [active]);
 
 
   const isMetaMaskInstalled = () => {
@@ -116,6 +108,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
     const vtContractAddress = config.mumbai_contract_addresses.vt_contract;
     ////console.log(JSON.stringify(vNFTJSON));
+    //alert(account);
     let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
     return await vtABI.methods.balanceOf(account).call();
   }
@@ -151,7 +144,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   }
 
   //alert(account);
-  if (connected) {
+  if (active) {
     //if username is empty, ask to set up
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
@@ -162,9 +155,9 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                 <ReactLoading type={'spin'} color={'#bf9a36'} height={'100%'} width={'100%'} />
               </div>,
                 <div className={styles.wallet}>
-                  <span className={styles.currency}><img style={{width: '3ex', marginTop: '-.4ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /></span>
+                  <span className={styles.currency}><img style={{width: '3ex', marginTop: '-.4ex', marginLeft: '-2ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /></span>
                 </div>] : [<div className={styles.avatar}>
-            <img src='/images/content/ve_circle.png' alt="Avatar" />
+                <Icon name="wallet" fill='white' size="32" />
             </div>,
                 <div>{(ethBalance === 0) && (parseVextBalance(vextBalance) !== "0.00") ? <div className={styles.wallet}>
           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
@@ -175,7 +168,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
         </div>
             {visible && (
                 <div className={styles.body}>
-                  {/*<div className={styles.name}>{userInfo.displayName}</div>*/}
+                  <div className={styles.name}>{active + " " + account}</div>
                   <CopyToClipboard text={account}
                       // onCopy={() => this.setState({copied: true})}
                   >

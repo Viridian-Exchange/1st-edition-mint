@@ -55,7 +55,7 @@ const Drops = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <h3 className={cn("h3", styles.title)}>Open Viridian Genesis Pack</h3>
+                <h3 className={cn("h3", styles.title)}>Verify Viridian Genesis Pack</h3>
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <Carousel slides={slides} onSlideChange={callback}/>

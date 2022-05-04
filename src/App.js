@@ -13,6 +13,10 @@ import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import  { Breakpoint, BreakpointProvider } from 'react-socks';
+import { Web3ReactProvider } from '@web3-react/core'
+//import { Web3Provider } from "@ethersproject/providers";
+import { useWeb3React } from '@web3-react/core'
+import {Biconomy} from "@biconomy/mexa";
 //import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
 import {
   useCryptoPrices,
@@ -38,7 +42,7 @@ function App() {
   const [ownedPacks, setOwnedPacks] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const [connected, setConnected] = useState(false);
-  const [account, setAccount] = useState("");
+  const [account1, setAccount] = useState("");
   const [ethBalance, setEthBalance] = useState(0);
   const [ethBalanceUSD, setEthBalanceUSD] = useState(0);
   const [vextBalance, setVextBalance] = useState(0);
@@ -277,14 +281,28 @@ function App() {
 
   }, [connected]);
 
+  function getLibrary(provider) {
+    //return new Web3(provider);
+    const biconomy = new Biconomy(provider,{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
+
+    biconomy.onEvent(biconomy.READY, () => {
+      // Initialize your dapp here like getting user accounts etc
+      console.log("initialized")
+      return new Web3(biconomy);
+    }).onEvent(biconomy.ERROR, (error, message) => {
+      // Handle error while initializing mexa
+      console.error(error);
+    });
+  }
+
+  const { active, chainId, account } = useWeb3React();
 
 
   return (
-      <CryptoPriceProvider>
         <BreakpointProvider>
+          <Web3ReactProvider getLibrary={getLibrary}>
             <Router forceRefresh={true}>
               {/*<AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>*/}
-              {/*{JSON.stringify(fetchedAndParsed)}*/}
               <Switch>
                 <Route
                     exact
@@ -296,8 +314,8 @@ function App() {
                     exact
                     path="/mint"
                     render={() => (
-                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                          <Drops account={account} />
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Drops  />
                         </Page>
                     )}
                 />
@@ -305,8 +323,8 @@ function App() {
                     exact
                     path="/open"
                     render={() => (
-                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                          <Open account={account} />
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Open  />
                         </Page>
                     )}
                 />
@@ -314,8 +332,8 @@ function App() {
                     exact
                     path="/verify"
                     render={() => (
-                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                          <Verify account={account} />
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance}  setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                          <Verify  />
                         </Page>
                     )}
                 />
@@ -323,7 +341,7 @@ function App() {
                     exact
                     path="/faq"
                     render={() => (
-                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                        <Page setPromptInstallMetamask = {setPromptInstallMetamask} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance}  setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                           <Faq />
                         </Page>
                     )}
@@ -333,8 +351,8 @@ function App() {
                 </Route>
               </Switch>
             </Router>
+          </Web3ReactProvider>
         </BreakpointProvider>
-      </CryptoPriceProvider>
   );
 }
 

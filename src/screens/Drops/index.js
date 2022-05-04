@@ -10,6 +10,7 @@ import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import ReactLoading from "react-loading";
 import Icon from "../../components/Icon";
 import Countdown from "react-countdown";
+import {useWeb3React} from "@web3-react/core";
 
 const Drops = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -20,7 +21,7 @@ const Drops = (props) => {
     const [mintFailed, setMintFailed] = useState(false);
     const [whitelistMintingEnabled, setWhitelistMintingEnabled] = useState(true);
     const [addressOnWhitelist, setAddressOnWhitelist] = useState(true);
-    const [publicMintingEnabled, setPublicMintingEnabled] = useState(true);
+    const [publicMintingEnabled, setPublicMintingEnabled] = useState(false);
     //const prices = useCryptoPrices(["eth"]);
 
     const STEP = 1;
@@ -53,30 +54,33 @@ const Drops = (props) => {
             return <div> <h1 style={{textAlign: 'center', color: 'gray', marginTop: '2ex'}}> Public Mint Starts in:
                 <h1 style={{textAlign: 'center', color: 'white'}}>{hours}:{minutes}:{seconds}</h1></h1>
                 <h2 style={{marginTop: '-2ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
-                    <svg height="100" width="100" style={{marginRight: '-4ex'}}>
-                        <circle cx="35" cy="50" r="3" stroke="red" stroke-width="3" fill="red" />
+                    <svg height="100" width="100" style={{marginRight: '-7.75ex'}}>
+                        <circle cx="5" cy="50" r="3" stroke="red" stroke-width="3" fill="red" />
                     </svg> Whitelist Unapproved
                 </h2></div>;
         }
     }
+    const { active, chainId, account } = useWeb3React();
 
-  return (
+
+    return (
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
                 <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
+                {active + " " + account}
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '40ex', borderRadius: '25px'}}>
-                            <source src='https://viridian-images.s3.us-east-2.amazonaws.com/Main_0001-0075.mp4' type="video/mp4"/>
+                            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
                         </video>
                     </div>
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '43ex', borderRadius: '25px'}}>
-                            <source src='https://viridian-images.s3.us-east-2.amazonaws.com/Main_0001-0075.mp4' type="video/mp4"/>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '40ex', borderRadius: '25px'}}>
+                            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
                         </video>
                     </div>
                 </Breakpoint>
@@ -91,7 +95,7 @@ const Drops = (props) => {
                     renderer={rendererPM}
                 />}
 
-                {whitelistMintingEnabled && addressOnWhitelist && <div>
+                {(publicMintingEnabled || (whitelistMintingEnabled && addressOnWhitelist)) && <div>
                     <h2 style={{marginTop: '2ex', textAlign: 'center'}}>
                         Number to Mint
                     </h2>
@@ -228,8 +232,8 @@ const Drops = (props) => {
                         </div>}
                 </div>
                     <h2 style={{marginTop: '-2ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
-                        <svg height="100" width="100" style={{marginRight: '-3.5ex'}}>
-                            <circle cx="50" cy="50" r="3" stroke="green" stroke-width="3" fill="green" />
+                        <svg height="100" width="100" style={{marginRight: '-7.75ex'}}>
+                            <circle cx="5" cy="50" r="3" stroke="green" stroke-width="3" fill="green"/>
                         </svg> Whitelist Approved
                     </h2>
                 </div>}

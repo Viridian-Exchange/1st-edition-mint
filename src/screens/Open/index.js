@@ -7,6 +7,7 @@ import {totalSupply, mint, getOwnedNFTs, openPack, tokenURI} from "../../smartCo
 //import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 import {Carousel} from '3d-react-carousal';
+import ReactLoading from "react-loading";
 
 // let slidez = [
 //     <video autoPlay muted loop={true} playsInline style={{maxWidth: '40ex'}}>
@@ -67,8 +68,8 @@ const Open = (props) => {
                 let tID = [];
 
                 nfts.map(async (x, index) => {
-                    slidesTemp.push(<video autoPlay muted loop={true} playsInline style={{maxWidth: '40ex'}}>
-                        <source src='https://viridian-images.s3.us-east-2.amazonaws.com/ezgif.com-gif-maker.mp4'
+                    slidesTemp.push(<video autoPlay muted loop={true} playsInline style={{maxWidth: '60ex'}}>
+                        <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4'
                                 type="video/mp4"/>
                     </video>);
                     let uri = await tokenURI(x, props.account);
@@ -121,12 +122,25 @@ const Open = (props) => {
                 <h3 className={cn("h3", styles.title)}>Open Viridian Genesis Packs</h3>
                 {/*{JSON.stringify(tokenIds)}*/}
                 {/*{JSON.stringify(slides.length)}*/}
-                {slides.length > 0 && <Breakpoint small down>
+                {showOpenedCard && <div style={{textAlign: 'center'}}>
+                    <video autoPlay muted playsInline loop={true} style={{maxWidth: '100ex', borderRadius: '25px'}}>
+                        <source src='https://content.viridianexchange.com/videos/PikachuLoop.mp4'
+                                type="video/mp4"/>
+                    </video></div>}
+
+                {showOpeningAnimation && !showOpenedCard &&
+                <div style={{textAlign: 'center'}}>
+                    <video autoPlay muted playsInline style={{maxWidth: '100ex', borderRadius: '25px'}}>
+                        <source src='https://content.viridianexchange.com/videos/PackOpenAnimation.mp4'
+                                type="video/mp4"/>
+                    </video></div>}
+
+                {slides.length > 0 && !showOpeningAnimation && <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <Carousel slides={slides} onSlideChange={callback}/>
                     </div>
                 </Breakpoint> }
-                {slides.length > 0 && <Breakpoint medium up>
+                {slides.length > 0 && !showOpeningAnimation && <Breakpoint medium up>
                     <div style={{textAlign: 'center', minHeight: '65ex'}}>
                         <Carousel slides={slides} onSlideChange={callback} arrows={true}/>
                     </div>
@@ -135,7 +149,7 @@ const Open = (props) => {
                 {slides.length === 0 &&
                     <div style={{textAlign: 'center', marginTop: '3ex'}}>
                         <h2 style={{textAlign: 'center', color: 'gray', marginBottom: '2ex'}}>
-                            Purchase a Viridian Genesis Pass on secondary to open
+                            Purchase a Viridian Genesis Pack on secondary to open
                         </h2>
                         <a
                         href="https://opensea.io"
@@ -180,15 +194,23 @@ const Open = (props) => {
                 {/*</h3>*/}
                 {slides.length > 0 && <div style={{textAlign: 'center', marginTop: '4ex'}}>
                     {/*{JSON.stringify(props)}*/}
-                    <button
+                    {loadingOpening && !showOpeningAnimation && <button
                         className={cn(styles.link, {
                         })}
-                        onClick={async () => {await openPack(props.account, values[0])}}
+                        style={{color: 'black'}}
+                    >
+                        <ReactLoading type={'spin'} color={'#bf9a36'} height={'25%'} width={'25%'} /> <div style={{marginLeft: '6ex', marginTop: '-2.75ex', marginBottom: '1ex'}}>Opening...</div>
+                    </button>}
+
+                    {!loadingOpening && <button
+                        className={cn(styles.link, {
+                        })}
+                        onClick={async () => {/*await openPack(props.account, values[0])*/ setLoadingOpening(true); setShowOpeningAnimation(true); await setTimeout(function() { setShowOpenedCard(true) }, 11500);}}
                     >
                         <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
                              src='/trading_card_icon.svg'
                              alt='ETH' /> {"Open Pack " + idParse(tokenIds[currentIndex])}
-                    </button>
+                    </button>}
                 </div>}
             </div>
         </div>
