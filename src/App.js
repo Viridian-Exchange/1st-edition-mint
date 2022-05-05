@@ -8,12 +8,54 @@ import Drops from "./screens/Drops";
 import Open from "./screens/Open";
 import Verify from "./screens/Verify";
 import Web3 from "web3";
+import { Web3Provider } from "@ethersproject/providers";
 import { Breakpoint, BreakpointProvider } from 'react-socks';
-import { Web3ReactProvider } from '@web3-react/core'
 import { useWeb3React } from '@web3-react/core'
 import {Biconomy} from "@biconomy/mexa";
+import {WalletLinkConnector} from "@web3-react/walletlink-connector";
+import {WalletConnectConnector} from "@web3-react/walletconnect-connector";
+import {InjectedConnector} from "@web3-react/injected-connector";
+import {NetworkConnector} from "@web3-react/network-connector";
+import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3Modal from "web3modal";
+import {toHex, truncateAddress} from "./utils/utils";
 
-let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+const providerOptions = {
+    coinbasewallet: {
+        package: CoinbaseWalletSDK, // Required
+        options: {
+            appName: "My Awesome App", // Required
+            rpc: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b", // Optional if `infuraId` is provided; otherwise it's required
+            chainId: 4, // Optional. It defaults to 1 if not provided
+            darkMode: true // Optional. Use dark theme, defaults to false
+        }
+    },
+    walletconnect: {
+        package: WalletConnectProvider, // required
+        options: {
+            rpc: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"
+        }
+    },
+};
+
+const networkParams = {
+    "0x63564c40": {
+        chainId: "0x0100",
+        rpcUrls: ["https://api.harmony.one"],
+        chainName: "Polygon Mainnet",
+        nativeCurrency: { name: "Ether", decimals: 18, symbol: "ETH" },
+        blockExplorerUrls: ["https://explorer.harmony.one"],
+        iconUrls: ["https://harmonynews.one/wp-content/uploads/2019/11/slfdjs.png"]
+    },
+};
+
+const web3Modal = new Web3Modal({
+    network: "mainnet", // optional
+    cacheProvider: true, // optional
+    providerOptions, // required,
+    theme: "dark"
+});
 
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
@@ -23,26 +65,151 @@ let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.al
 // use item flow -> Profile/user flow
 // get current user wallet, then abi->getuserfromaddress->return json of user struct
 function App() {
+    const [biconomyFetched, setBiconomyFetched] = useState(false);
+    const [account, setAccount] = useState();
+    const [provider, setProvider] = useState();
+    const [library, setLibrary] = useState();
+    const [signature, setSignature] = useState("");
+    const [error, setError] = useState("");
+    const [chainId, setChainId] = useState();
+    const [network, setNetwork] = useState();
+    const [message, setMessage] = useState("");
+    const [signedMessage, setSignedMessage] = useState("");
+    const [verified, setVerified] = useState();
 
-  function getLibrary(provider) {
-    //return new Web3(provider);
-    const biconomy = new Biconomy(provider,{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
+    const connectWallet = async () => {
+        try {
+            const provider = await web3Modal.connect();
+            const library = new Web3(provider);
+            const accounts = await library.listAccounts();
+            const network = await library.getNetwork();
+            setProvider(provider);
+            setLibrary(library);
+            if (accounts) setAccount(accounts[0]);
+            setChainId(network.chainId);
+        } catch (error) {
+            setError(error);
+        }
+    };
 
-    biconomy.onEvent(biconomy.READY, () => {
-      // Initialize your dapp here like getting user accounts etc
-      console.log("initialized")
-      return new Web3(biconomy);
-    }).onEvent(biconomy.ERROR, (error, message) => {
-      // Handle error while initializing mexa
-      console.error(error);
-    });
-  }
+    const handleNetwork = (e) => {
+        const id = e.target.value;
+        setNetwork(Number(id));
+    };
 
-  const { active, chainId, account, activate } = useWeb3React();
+    const handleInput = (e) => {
+        const msg = e.target.value;
+        setMessage(msg);
+    };
+
+    const switchNetwork = async () => {
+        try {
+            await library.provider.request({
+                method: "wallet_switchEthereumChain",
+                params: [{ chainId: toHex(4) }]
+            });
+        } catch (switchError) {
+            if (switchError.code === 4902) {
+                try {
+                    await library.provider.request({
+                        method: "wallet_addEthereumChain",
+                        params: [networkParams[toHex(4)]]
+                    });
+                } catch (error) {
+                    setError(error);
+                }
+            }
+        }
+    };
+
+    const signMessage = async () => {
+        if (!library) return;
+        try {
+            const signature = await library.provider.request({
+                method: "personal_sign",
+                params: [message, account]
+            });
+            setSignedMessage(message);
+            setSignature(signature);
+        } catch (error) {
+            setError(error);
+        }
+    };
+
+    const verifyMessage = async () => {
+        if (!library) return;
+        try {
+            const verify = await library.provider.request({
+                method: "personal_ecRecover",
+                params: [signedMessage, signature]
+            });
+            setVerified(verify === account.toLowerCase());
+        } catch (error) {
+            setError(error);
+        }
+    };
+
+    const refreshState = () => {
+        setAccount();
+        setChainId();
+        setNetwork("");
+        setMessage("");
+        setSignature("");
+        setVerified(undefined);
+    };
+
+    const disconnect = async () => {
+        await web3Modal.clearCachedProvider();
+        refreshState();
+    };
+
+    useEffect(async () => {
+        if (web3Modal.cachedProvider) {
+            // alert(JSON.stringify(web3Modal.cachedProvider))
+            // await web3Modal.clearCachedProvider();
+            // refreshState();
+            connectWallet();
+        }
+    }, []);
+
+    useEffect(async () => {
+        if (chainId !== toHex(4)) {
+            await switchNetwork();
+        }
+    })
+
+    useEffect(() => {
+        if (provider?.on) {
+            const handleAccountsChanged = (accounts) => {
+                console.log("accountsChanged", accounts);
+                if (accounts) setAccount(accounts[0]);
+            };
+
+            const handleChainChanged = (_hexChainId) => {
+                setChainId(_hexChainId);
+            };
+
+            const handleDisconnect = () => {
+                console.log("disconnect", error);
+                disconnect();
+            };
+
+            provider.on("accountsChanged", handleAccountsChanged);
+            provider.on("chainChanged", handleChainChanged);
+            provider.on("disconnect", handleDisconnect);
+
+            return () => {
+                if (provider.removeListener) {
+                    provider.removeListener("accountsChanged", handleAccountsChanged);
+                    provider.removeListener("chainChanged", handleChainChanged);
+                    provider.removeListener("disconnect", handleDisconnect);
+                }
+            };
+        }
+    }, [provider]);
 
   return (
         <BreakpointProvider>
-          <Web3ReactProvider getLibrary={getLibrary}>
             <Router forceRefresh={true}>
               <Switch>
                 <Route
@@ -55,8 +222,8 @@ function App() {
                     exact
                     path="/genesis-drop"
                     render={() => (
-                        <Page>
-                          <Drops  />
+                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Drops biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
                         </Page>
                     )}
                 />
@@ -92,7 +259,6 @@ function App() {
                 </Route>
               </Switch>
             </Router>
-          </Web3ReactProvider>
         </BreakpointProvider>
   );
 }

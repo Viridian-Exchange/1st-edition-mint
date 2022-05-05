@@ -10,9 +10,9 @@ import ReactLoading from "react-loading";
 import Icon from "../../components/Icon";
 import Countdown from "react-countdown";
 import { useWeb3React } from '@web3-react/core';
+import { switchNetwork } from "../../utils/walletHandlers";
 
 const Drops = (props) => {
-    const [initialLoaded, setInitialLoaded] = useState(false);
     const [values, setValues] = useState([1]);
     const [minted, setMinted] = useState(0);
     const [minting, setMinting] = useState(false);
@@ -58,7 +58,6 @@ const Drops = (props) => {
                 </h2></div>;
         }
     }
-    const { active, chainId, account } = useWeb3React();
 
 
     return (
@@ -67,7 +66,6 @@ const Drops = (props) => {
             <div className={cn("container", styles.container)}>
                 <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
-                {active + " " + account}
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '40ex', borderRadius: '25px'}}>

@@ -2,22 +2,23 @@ import config from "../local-dev-config";
 import vGPJSON from "../abis/ViridianGenesisPack.json";
 import {Biconomy} from "@biconomy/mexa";
 import Web3 from "web3";
+import {useWeb3React} from "@web3-react/core";
 
-let web3Wallet = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
-
+let web3Wallet = new Web3(Web3.givenProvider);// || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
+//
 let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
-
+//
 const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
+//
+// let biconomyWeb3 = new Web3(biconomy);
 
-let biconomyWeb3 = new Web3(biconomy);
-
-biconomy.onEvent(biconomy.READY, () => {
-    // Initialize your dapp here like getting user accounts etc
-    console.log("initialized");
-}).onEvent(biconomy.ERROR, (error, message) => {
-    // Handle error while initializing mexa
-    console.error(error);
-});
+// biconomy.onEvent(biconomy.READY, () => {
+//     // Initialize your dapp here like getting user accounts etc
+//     console.log("initialized");
+// }).onEvent(biconomy.ERROR, (error, message) => {
+//     // Handle error while initializing mexa
+//     console.error(error);
+// });
 
 // export async function tokenURI(tokenId) {
 //     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
@@ -125,12 +126,14 @@ export async function openPack(from, tokenId, setSuccess, setFailed, setMinting)
 //     return await vNFTABI.methods.bridge(bridgeNFTs).send({from: from});
 // }
 
-export async function totalSupply(from) {
+export async function totalSupply(provider) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+    if (provider) {
+        const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
-    return await vNFTABI.methods.totalSupply().call();
+        let vNFTABI = new provider.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+        return await vNFTABI.methods.totalSupply().call();
+    }
     //return await vNFTABI.methods.getNumNFTs().call();
 }
 
