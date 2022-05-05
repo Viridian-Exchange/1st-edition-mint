@@ -20,12 +20,13 @@ import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import {toHex, truncateAddress} from "./utils/utils";
+import { ethers } from "ethers";
 
 const providerOptions = {
     coinbasewallet: {
         package: CoinbaseWalletSDK, // Required
         options: {
-            appName: "My Awesome App", // Required
+            appName: "Viridian Exchange", // Required
             rpc: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b", // Optional if `infuraId` is provided; otherwise it's required
             chainId: 4, // Optional. It defaults to 1 if not provided
             darkMode: true // Optional. Use dark theme, defaults to false
@@ -40,7 +41,7 @@ const providerOptions = {
 };
 
 const networkParams = {
-    "0x63564c40": {
+    "0x0100": {
         chainId: "0x0100",
         rpcUrls: ["https://api.harmony.one"],
         chainName: "Polygon Mainnet",
@@ -78,18 +79,21 @@ function App() {
     const [verified, setVerified] = useState();
 
     const connectWallet = async () => {
-        try {
+        //try {
             const provider = await web3Modal.connect();
             const library = new Web3(provider);
-            const accounts = await library.listAccounts();
-            const network = await library.getNetwork();
+            //alert(JSON.stringify(library.givenProvider));
+            const accounts = await library.eth.getAccounts();
+            //alert(JSON.stringify(accounts));
+            const network = await library.eth.net.getId();
+            //alert(JSON.stringify(network));
             setProvider(provider);
             setLibrary(library);
             if (accounts) setAccount(accounts[0]);
-            setChainId(network.chainId);
-        } catch (error) {
-            setError(error);
-        }
+            setChainId(network);
+        // } catch (error) {
+        //     alert(JSON.stringify(error));
+        // }
     };
 
     const handleNetwork = (e) => {
@@ -104,48 +108,33 @@ function App() {
 
     const switchNetwork = async () => {
         try {
-            await library.provider.request({
+            await window.ethereum.request({
                 method: "wallet_switchEthereumChain",
                 params: [{ chainId: toHex(4) }]
             });
         } catch (switchError) {
+            //alert(JSON.stringify(switchError.code))
             if (switchError.code === 4902) {
                 try {
-                    await library.provider.request({
-                        method: "wallet_addEthereumChain",
-                        params: [networkParams[toHex(4)]]
-                    });
+                    await window.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [
+                            {
+                                chainName: 'Polygon Mainnet',
+                                chainId: toHex(137),
+                                nativeCurrency: {
+                                    name: 'Polygon',
+                                    symbol: 'MATIC',
+                                    decimals: 18
+                                },
+                                rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+                                blockExplorerUrls: ['https://polygonscan.com/']
+                            }]
+                            });
                 } catch (error) {
                     setError(error);
                 }
             }
-        }
-    };
-
-    const signMessage = async () => {
-        if (!library) return;
-        try {
-            const signature = await library.provider.request({
-                method: "personal_sign",
-                params: [message, account]
-            });
-            setSignedMessage(message);
-            setSignature(signature);
-        } catch (error) {
-            setError(error);
-        }
-    };
-
-    const verifyMessage = async () => {
-        if (!library) return;
-        try {
-            const verify = await library.provider.request({
-                method: "personal_ecRecover",
-                params: [signedMessage, signature]
-            });
-            setVerified(verify === account.toLowerCase());
-        } catch (error) {
-            setError(error);
         }
     };
 
@@ -165,18 +154,16 @@ function App() {
 
     useEffect(async () => {
         if (web3Modal.cachedProvider) {
-            // alert(JSON.stringify(web3Modal.cachedProvider))
-            // await web3Modal.clearCachedProvider();
-            // refreshState();
-            connectWallet();
+            await connectWallet();
         }
     }, []);
 
     useEffect(async () => {
-        if (chainId !== toHex(4)) {
+        //alert(chainId);
+        if (toHex(chainId) !== toHex(4)) {
             await switchNetwork();
         }
-    })
+    }, [chainId])
 
     useEffect(() => {
         if (provider?.on) {
@@ -231,8 +218,8 @@ function App() {
                     exact
                     path="/open"
                     render={() => (
-                        <Page>
-                          <Open  />
+                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
                         </Page>
                     )}
                 />

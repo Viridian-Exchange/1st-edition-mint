@@ -3,7 +3,12 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {totalSupply, mint} from "../../smartContracts/Viridian1EPassMethods";
+import {
+    totalSupply,
+    mint,
+    isWhitelistMintingEnabled,
+    isPublicMintingEnabled, isAddressWhitelisted
+} from "../../smartContracts/Viridian1EPassMethods";
 import {Breakpoint} from 'react-socks';
 import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 import ReactLoading from "react-loading";
@@ -18,8 +23,8 @@ const Drops = (props) => {
     const [minting, setMinting] = useState(false);
     const [mintSucceeded, setMintSucceeded] = useState(false);
     const [mintFailed, setMintFailed] = useState(false);
-    const [whitelistMintingEnabled, setWhitelistMintingEnabled] = useState(true);
-    const [addressOnWhitelist, setAddressOnWhitelist] = useState(true);
+    const [whitelistMintingEnabled, setWhitelistMintingEnabled] = useState(false);
+    const [addressOnWhitelist, setAddressOnWhitelist] = useState(false);
     const [publicMintingEnabled, setPublicMintingEnabled] = useState(false);
 
     const STEP = 1;
@@ -27,7 +32,10 @@ const Drops = (props) => {
     const MAX = 10;
 
     useEffect(async () => {
+        setAddressOnWhitelist(true);
         setMinted(await totalSupply());
+        setWhitelistMintingEnabled(await isWhitelistMintingEnabled());
+        setPublicMintingEnabled(await isPublicMintingEnabled());
     }, [])
 
     document.getElementsByClassName('crossmintParagraph-2-2-3 crossmintParagraph-d3-2-2-7').innerText = 'Hide';
@@ -66,6 +74,7 @@ const Drops = (props) => {
             <div className={cn("container", styles.container)}>
                 <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
+                {publicMintingEnabled + "|" + whitelistMintingEnabled}
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '40ex', borderRadius: '25px'}}>
@@ -81,7 +90,7 @@ const Drops = (props) => {
                     </div>
                 </Breakpoint>
 
-                {!whitelistMintingEnabled && <Countdown
+                {!whitelistMintingEnabled && !publicMintingEnabled && <Countdown
                     date={Date.parse('24 May 2022 00:04:00 EST')}
                     renderer={renderer}
                 />}
@@ -223,11 +232,11 @@ const Drops = (props) => {
                             <Icon name="close" size="20" fill={"#FF0000"} style={{marginRight: "3ex"}}/> Mint Failed, Try Again.
                         </div>}
                 </div>
-                    <h2 style={{marginTop: '-2ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
+                    {(!publicMintingEnabled) && <h2 style={{marginTop: '-2ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
                         <svg height="100" width="100" style={{marginRight: '-7.75ex'}}>
                             <circle cx="5" cy="50" r="3" stroke="green" stroke-width="3" fill="green"/>
                         </svg> Whitelist Approved
-                    </h2>
+                    </h2>}
                 </div>}
                 <div style={{marginTop: '3ex', textAlign: 'center'}}>
                     <ProgressBar barContainerClassName="barContainer"

@@ -33,16 +33,17 @@ import Web3Modal from "web3modal";
 //let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
-const items = (account) => [
+
+let provider;
+let selectedAccount;
+
+const items = (account, disconnect) => [
   {
     title: "Disconnect",
     icon: "exit",
     url: "/",
   },
 ];
-
-let provider;
-let selectedAccount;
 
 const User = ({ className, connectWallet, disconnect, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, setPromptInstallMetamask, setVisibleModalWallets}) => {
   const [visible, setVisible] = useState(false);
@@ -144,44 +145,17 @@ const User = ({ className, connectWallet, disconnect, account, setAccount, conne
                     {/*</button>*/}
                   </div>
                   <div className={styles.menu}>
-                    {items(account).map((x, index) =>
-                        x.url ? (
-                            x.url.startsWith("http") ? (
-                                <button
-                                    onClick={async () => {await disconnect()}}
-                                    className={styles.item}
-                                    href={x.url}
-                                    rel="noopener noreferrer"
-                                    key={index}
-                                >
-                                  <div className={styles.icon}>
-                                    <Icon name={x.icon} size="20"/>
-                                  </div>
-                                  <div className={styles.text}>{x.title}</div>
-                                </button>
-                            ) : (
-                                <Link
-                                    className={styles.item}
-                                    onClick={() => setVisible(!visible)}
-                                    key={index}
-                                    to={{ pathname: x.url, state: { account: account }}}
-                                >
-                                  <div className={styles.icon}>
-                                    <Icon name={x.icon} size="20"/>
-                                  </div>
-                                  <div className={styles.text}>{x.title}</div>
-                                </Link>
-                            )
-                        ) : (
-                            <div className={styles.item} key={index}>
-                              <div className={styles.icon}>
-                                <Icon name={x.icon} size="20"/>
-                              </div>
-                              <div className={styles.text}>{x.title}</div>
-                              <Theme className={styles.theme}/>
-                            </div>
-                        )
-                    )}
+                    <button
+                        className={styles.item}
+                        onClick={async () => await disconnect()}
+                        //key={index}
+                        //to={{ pathname: x.url, state: { account: account }}}
+                    >
+                      <div className={styles.icon}>
+                        <Icon name='exit' size="20"/>
+                      </div>
+                      <div className={styles.text}>Disconnect</div>
+                    </button>
                   </div>
                 </div>
             )}

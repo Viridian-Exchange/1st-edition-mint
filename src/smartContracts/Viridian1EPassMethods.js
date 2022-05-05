@@ -4,7 +4,7 @@ import {Biconomy} from "@biconomy/mexa";
 import Web3 from "web3";
 import {useWeb3React} from "@web3-react/core";
 
-let web3Wallet = new Web3(Web3.givenProvider);// || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
+let web3Wallet = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 //
 let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 //
@@ -126,16 +126,50 @@ export async function openPack(from, tokenId, setSuccess, setFailed, setMinting)
 //     return await vNFTABI.methods.bridge(bridgeNFTs).send({from: from});
 // }
 
-export async function totalSupply(provider) {
+export async function totalSupply() {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    if (provider) {
+    //if (web3) {
         const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-        let vNFTABI = new provider.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+        let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
         return await vNFTABI.methods.totalSupply().call();
-    }
+    //}
     //return await vNFTABI.methods.getNumNFTs().call();
 }
+
+export async function isWhitelistMintingEnabled() {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    //if (web3) {
+    const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+
+    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    return await vNFTABI.methods.isWhitelistMintingEnabled().call();
+    //}
+    //return await vNFTABI.methods.getNumNFTs().call();
+}
+
+export async function isPublicMintingEnabled() {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    //if (web3) {
+    const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+
+    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    return await vNFTABI.methods.isPublicMintingEnabled().call();
+    //}
+    //return await vNFTABI.methods.getNumNFTs().call();
+}
+
+export async function isAddressWhitelisted(address) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    //if (web3) {
+    const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+
+    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    return await vNFTABI.methods.isAddressWhitelisted().call();
+    //}
+    //return await vNFTABI.methods.getNumNFTs().call();
+}
+
 
 export async function getOwnedNFTs(from) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);

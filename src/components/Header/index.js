@@ -7,7 +7,7 @@ import Image from "../Image";
 import User from "./User";
 import  { Breakpoint } from 'react-socks';
 
-const Headers = (props, {disconnect}) => {
+const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
 
 
@@ -145,7 +145,7 @@ const Headers = (props, {disconnect}) => {
             >
           Buy Polygon ETH
         </a>
-        <User connectWallet={props.connectWallet} disconnect={disconnect} setVisibleModalWallets={props.setVisibleModalWallets} setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
+        <User connectWallet={props.connectWallet} disconnect={props.disconnect} setVisibleModalWallets={props.setVisibleModalWallets} setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
