@@ -1,0 +1,116 @@
+@import ../../styles/helpers
+
+.title
+    margin-bottom: 32px
+    padding-right: 56px
+
+.text
+    margin-bottom: 32px
+    +body-2
+    color: $blue
+    text-decoration: underline
+
+.link
+    margin: 0 6px
+    padding: 13px 22px
+    border-radius: 22px
+    background-color: grey
+    margin-top: 2ex
+    margin-bottom: -1ex
+    +button-2
+    color: $neutrals8
+    transition: all .2s
+    &:hover
+        color: $blue
+        +dark
+            color: $blue
+    &.active
+        background: $neutrals3
+        color: $blue
+        +dark
+            background: $neutrals8
+            color: $neutrals2
+    &:nth-child(n+5)
+        +d
+            display: none
+
+.info
+    margin-bottom: 3px
+    +body-bold-1
+
+.input
+    width: 100%
+    height: 48px
+    border-bottom: 1px solid $neutrals6
+    +poppins
+    +body-bold-2
+    color: $neutrals2
+    +placeholder
+        color: $neutrals4
+
+.btns
+    margin-top: 32px
+    text-align: center
+
+.button
+    width: 100%
+
+    &:not(:last-child)
+        margin-bottom: 8px
+
+.info
+    +body-1
+    width: 20ex
+    margin-left: -0.5ex
+    margin-bottom: -1.5ex
+    color: $neutrals4
+
+.pending
+    border: 1px solid $neutrals4
+    border-radius: 15px
+    margin-top: 2.5ex
+    width: 100%
+    height: 50px
+
+.circle__spin
+    position: absolute
+    left: -10px
+    top: -10px
+    width: 140px
+    height: 140px
+
+
+.circle__spin svg
+    width: 100%
+    height: 100%
+    animation: spin 10s linear infinite
+
+
+.circle__spin circle
+    stroke-width: 5
+    stroke-dasharray: 120, 20
+    fill: none
+    stroke: $purple
+
+.info
+    margin-top: 0.25ex
+    float: left
+    width: 330px
+    +m
+        width: 230px
+
+.infos
+    margin-left: -0.5ex
+    margin-top: 0.25ex
+    width: 100%
+
+.hash
+    float: right
+    width: 160px
+    color: $purple
+    margin-top: 0.5ex
+
+@keyframes spin
+    100%
+        transform: rotate(360deg)
+

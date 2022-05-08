@@ -14550,6 +14550,14 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
+react-transitions-library@^1.10.1:
+  version "1.10.1"
+  resolved "https://registry.yarnpkg.com/react-transitions-library/-/react-transitions-library-1.10.1.tgz#72b37cc09c6d96dd55861c4e422f4f08f95f5802"
+  integrity sha512-WNPZ5KAHHrhT+STljotkdfB80CGMJZMnlF46l1OsY/kCe46UUOM/3IJCVnS5QIJVrvTYUWzGsGmdm1lG+80YFA==
+  dependencies:
+    dotenv "^10.0.0"
+    uuid "^8.3.2"
+
 react-video-looper@^1.0.16:
   version "1.0.16"
   resolved "https://registry.yarnpkg.com/react-video-looper/-/react-video-looper-1.0.16.tgz#557e4abe6315df520e160b93d27f2728d02387c0"

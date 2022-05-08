@@ -39,14 +39,12 @@ const Modal = ({
     visible && (
       <div className={styles.modal} ref={scrollRef}>
         <div className={cn(styles.outer, outerClassName)}>
-          <OutsideClickHandler onOutsideClick={onClose}>
             <div className={cn(styles.container, containerClassName)}>
               {children}
-              <button className={styles.close} onClick={onClose}>
-                <Icon name="close" size="14" />
-              </button>
+              {/*<button className={styles.close} onClick={onClose}>*/}
+              {/*  <Icon name="close" size="14" />*/}
+              {/*</button>*/}
             </div>
-          </OutsideClickHandler>
         </div>
       </div>
     ),

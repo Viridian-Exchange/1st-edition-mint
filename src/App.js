@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Faq from "./screens/Faq";
-import Drops from "./screens/Drops";
+import Mint from "./screens/Mint";
 import Open from "./screens/Open";
 import Verify from "./screens/Verify";
 import Web3 from "web3";
@@ -58,6 +58,10 @@ const web3Modal = new Web3Modal({
     theme: "dark"
 });
 
+const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
+
+let biconomyWeb3 = new Web3(biconomy);
+
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
 // (triggered by follow button press-> calls the function which takes in an address and adds the user to the list of following)
@@ -77,6 +81,7 @@ function App() {
     const [message, setMessage] = useState("");
     const [signedMessage, setSignedMessage] = useState("");
     const [verified, setVerified] = useState();
+    const [gaslessReady, setGaslessReady] = useState(false);
 
     const connectWallet = async () => {
         //try {
@@ -91,6 +96,15 @@ function App() {
             setLibrary(library);
             if (accounts) setAccount(accounts[0]);
             setChainId(network);
+
+            biconomy.onEvent(biconomy.READY, () => {
+                // Initialize your dapp here like getting user accounts etc
+                console.log("Setting gasless ready");
+                setGaslessReady(true);
+            }).onEvent(biconomy.ERROR, (error, message) => {
+                // Handle error while initializing mexa
+                console.error(error);
+            });
         // } catch (error) {
         //     alert(JSON.stringify(error));
         // }
@@ -210,7 +224,7 @@ function App() {
                     path="/genesis-drop"
                     render={() => (
                         <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Drops biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
+                          <Mint biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} />
                         </Page>
                     )}
                 />
