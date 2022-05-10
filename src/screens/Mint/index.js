@@ -95,7 +95,7 @@ const Mint = (props) => {
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '50ex', borderRadius: '25px'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '30ex', borderRadius: '25px'}}>
                             <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
                         </video>
                     </div>
