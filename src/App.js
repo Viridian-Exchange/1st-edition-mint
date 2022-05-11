@@ -27,7 +27,7 @@ const providerOptions = {
         package: CoinbaseWalletSDK, // Required
         options: {
             appName: "Viridian Exchange", // Required
-            rpc: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b", // Optional if `infuraId` is provided; otherwise it's required
+            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js", // Optional if `infuraId` is provided; otherwise it's required
             chainId: 4, // Optional. It defaults to 1 if not provided
             darkMode: true // Optional. Use dark theme, defaults to false
         }
@@ -35,7 +35,7 @@ const providerOptions = {
     walletconnect: {
         package: WalletConnectProvider, // required
         options: {
-            rpc: "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"
+            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"
         }
     },
 };
@@ -43,7 +43,7 @@ const providerOptions = {
 const networkParams = {
     "0x0100": {
         chainId: "0x0100",
-        rpcUrls: ["https://api.harmony.one"],
+        rpcUrls: ["https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"],
         chainName: "Polygon Mainnet",
         nativeCurrency: { name: "Ether", decimals: 18, symbol: "ETH" },
         blockExplorerUrls: ["https://explorer.harmony.one"],
@@ -91,7 +91,7 @@ function App() {
             const accounts = await library.eth.getAccounts();
             //alert(JSON.stringify(accounts));
             const network = await library.eth.net.getId();
-            //alert(JSON.stringify(network));
+            alert(JSON.stringify(network));
             setProvider(provider);
             setLibrary(library);
             if (accounts) setAccount(accounts[0]);

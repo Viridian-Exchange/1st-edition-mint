@@ -68,26 +68,26 @@ export async function mint(from, numMint, setSuccess, setFailed, setMinting) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    let vNFTABI = new biconomyWeb3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
     try {
         await vNFTABI.methods.mint(numMint, from).send({
-            from: from, value: (100000000000000000 * numMint).toString(),
-            //signatureType: biconomy.EIP712_SIGN
+            from: from, //value: (100000000000000000 * numMint).toString(),
+            signatureType: biconomy.EIP712_SIGN
         });
 
         let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
 
-        await vNFTABIWS.events.Transfer({filter: {from: from}}).on('data', async function (event) {
+        await vNFTABIWS.events.Mint({filter: {from: from}}).on('data', async function (event) {
             setSuccess(true);
             setFailed(false);
             setMinting(false);
         }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
 
     } catch(e) {
+        console.error(e);
         setFailed(true);
         setMinting(false);
-        console.error(e);
     }
 }
 
@@ -95,26 +95,27 @@ export async function openPack(from, tokenId, setSuccess, setFailed, setMinting)
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    let vNFTABI = new biconomyWeb3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
+    alert(tokenId);
     try {
         await vNFTABI.methods.openPack(tokenId).send({
             from: from,
             signatureType: biconomy.EIP712_SIGN
         });
 
-        let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
-
-        await vNFTABIWS.events.Transfer({filter: {from: from}}).on('data', async function (event) {
-            setSuccess(true);
-            setFailed(false);
-            setMinting(false);
-        }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
+        // let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+        //
+        // await vNFTABIWS.events.Transfer({filter: {from: from}}).on('data', async function (event) {
+        //     setSuccess(true);
+        //     setFailed(false);
+        //     setMinting(false);
+        // }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
 
     } catch(e) {
-        setFailed(true);
-        setMinting(false);
         console.error(e);
+        //setFailed(true);
+        setMinting(false);
     }
 }
 

@@ -8,16 +8,17 @@ import Web3Modal from "web3modal";
 import Web3 from "web3";
 import Icon from "../Icon";
 import {Breakpoint} from 'react-socks';
-import {allowance, approve, approveRegular} from "../../smartContracts/ViridianTokenMethods";
+import {approve, approveRegular, tokenAllowance} from "../../smartContracts/ViridianTokenMethods";
 import {mint} from "../../smartContracts/ViridianGenPassMethods";
 import config from "../../local-dev-config";
 import vGPackJSON from "../../abis/ViridianGenesisPack.json";
+import vTPackJSON from "../../abis/MetaTransactionTokenABI.json";
 
 let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
 //TODO: PASS IN USERINFO AND UPDATE THIS WHEN PUSHED TO DYNAMO
 // SET FETCHED PROP SO WHEN THAT CHANGES, FETCHES THE USER AND SETS IT TO USERINFO
-const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintSucceeded, setMinting }) => {
+const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintSucceeded, setMintFailed, setMinting }) => {
     const [approved, setApproved] = useState(false);
     const [approveHash, setApproveHash] = useState('...');
     const [mintHash, setMintHash] = useState('...');
@@ -29,29 +30,36 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
     }
 
     useEffect(async () => {
+        //alert(await tokenAllowance(account, config.rinkeby_contract_addresses.vgp_contract))
+
         try {
             const vpContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+            const vtContractAddress = config.rinkeby_contract_addresses.vt_contract;
 
-            let allowance = await allowance(account, vpContractAddress);
+            let allowance = await tokenAllowance(account, vpContractAddress);
 
             let vpABI = new web3WS.eth.Contract(vGPackJSON['abi'], vpContractAddress);
+            let vtABI = new web3WS.eth.Contract(vTPackJSON, vtContractAddress);
 
-            if (allowance === 0) {
+            //alert(parseInt(allowance) === 0)
+            if (parseInt(allowance) === 0) {
                 //await approve(account, vpContractAddress);
                 await approveRegular(account, vpContractAddress);
 
-                await vpABI.events.Approve({filter: {to: account}}).on('data', async function (event) {
+                await vtABI.events.Approval({filter: {to: account}}).on('data', async function (event) {
                     if (event) {
                         setApproved(true);
-                        await mint();
+                        alert('found event')
+                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
 
                         setApproveHash(event.transactionHash);
                     }
                 });
             }
             else {
+                alert('already approved')
                 setApproved(true);
-                await mint();
+                await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
             }
 
             await vpABI.events.Mint({filter: {to: account}}).on('data', async function (event) {
@@ -64,7 +72,8 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
         }
         catch (e) {
             //TODO: Put this back when ready
-            //setMinting(false);
+            console.error(e);
+            setMinting(false);
         }
     }, []);
 

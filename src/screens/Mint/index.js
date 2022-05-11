@@ -48,7 +48,7 @@ const Mint = (props) => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             // Render a completed state
-            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Starting Whitelist Mint...</h1>;
+            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Starting Whitelist Mint...</h1>
         } else {
             // Render a countdown
             return <div><h1 style={{textAlign: 'center', color: 'gray', marginTop: '2ex'}}> Whitelist mint starts in:
@@ -58,14 +58,14 @@ const Mint = (props) => {
                         <circle cx="5" cy="50" r="3" stroke="red" stroke-width="3" fill="red" />
                     </svg> Whitelist Unapproved
                 </h2>}
-            </div>;
+            </div>
         }
     }
 
     const rendererPM = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             // Render a completed state
-            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Starting Public Mint...</h1>;
+            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Starting Public Mint...</h1>
         } else {
             // Render a countdown
             return <div> <h1 style={{textAlign: 'center', color: 'gray', marginTop: '2ex'}}> Public Mint Starts in:
@@ -74,7 +74,7 @@ const Mint = (props) => {
                     <svg height="100" width="100" style={{marginRight: '-7.75ex'}}>
                         <circle cx="5" cy="50" r="3" stroke="red" stroke-width="3" fill="red" />
                     </svg> Whitelist Unapproved
-                </h2></div>;
+                </h2></div>
         }
     }
 
@@ -195,7 +195,7 @@ const Mint = (props) => {
                         visible={minting}
                         onClose={() => setMinting(false)}
                     >
-                        <MintTransaction mintSucceeded={mintSucceeded} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
+                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
                     </Modal>
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>
@@ -250,12 +250,12 @@ const Mint = (props) => {
                         </div>}
                 </div>
                 </div>}
-                {(!publicMintingEnabled && addressOnWhitelist) && <h2 style={{marginTop: '-2ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
+                {(!publicMintingEnabled && addressOnWhitelist) && <h2 style={{marginTop: '-3ex', marginBottom: '-3ex', color: 'white', textAlign: 'center'}}>
                     <svg height="100" width="100" style={{marginRight: '-7.75ex'}}>
                         <circle cx="5" cy="50" r="3" stroke="green" stroke-width="3" fill="green"/>
                     </svg> Whitelist Approved
                 </h2>}
-                {(whitelistMintingEnabled || publicMintingEnabled) && <div style={{marginTop: '3ex', textAlign: 'center'}}>
+                {(whitelistMintingEnabled || publicMintingEnabled) && <div style={{marginTop: '1ex', textAlign: 'center'}}>
                     <ProgressBar barContainerClassName="barContainer"
                                  completedClassName="barCompleted"
                                  labelClassName="barLabel"

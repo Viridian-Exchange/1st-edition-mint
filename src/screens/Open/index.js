@@ -22,6 +22,7 @@ const Open = (props) => {
     const [startFade, setStartFade] = useState(false);
     const [slides, setSlides] = useState([]);
     const [tokenIds, setTokenIds] = useState([]);
+    const [packNums, setPackNums] = useState([]);
     const [showCardVideo, setShowCardVideo] = useState(false);
     const [curVideo, setCurVideo] = useState('https://content.viridianexchange.com/videos/PackOpenAnimation.mp4')
     const [fetched, setFetched] = useState(false);
@@ -48,19 +49,22 @@ const Open = (props) => {
 
                 let slidesTemp = [];
 
+                let pID = [];
                 let tID = [];
 
                 nfts.map(async (x, index) => {
-                    slidesTemp.push(<video autoPlay muted loop={true} playsInline style={{maxWidth: '60ex'}}>
+                    slidesTemp.push(<video autoPlay muted loop={true} playsInline style={{maxWidth: '40ex'}}>
                         <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4'
                                 type="video/mp4"/>
                     </video>);
                     let uri = await tokenURI(x, props.account);
-                    tID.push(uri.split('/')[4]);
+                    pID.push(uri.split('/')[4]);
+                    tID.push(x);
                 });
 
                 setSlides(slidesTemp);
                 slidesTemp = [];
+                setPackNums(pID);
                 setTokenIds(tID);
                 setFetched(true);
             }
@@ -78,10 +82,17 @@ const Open = (props) => {
     //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
     // ]
 
+    const runOpeningAnimation = async () => {
+        setShowOpeningAnimation(true); await setTimeout(function() { setStartFade(true); setCurVideo('http://content.viridianexchange.com/videos/transition-short-crop.mp4') }, 9100); await setTimeout(function() { setCurVideo('https://content.viridianexchange.com/videos/PikachuLoop.mp4');
+        }, 10000);
+        await setTimeout(function() {
+            setStartFade(false); }, 10250);
+    }
+
     const callback = function(index){
         console.log("callback",index);
-        if (tokenIds.length <= 3) {
-            setCurrentIndex(index % tokenIds.length);
+        if (packNums.length <= 3) {
+            setCurrentIndex(index % packNums.length);
         }
         else {
             setCurrentIndex(index);
@@ -175,14 +186,12 @@ const Open = (props) => {
                     {!loadingOpening && <button
                         className={cn(styles.link, {
                         })}
-                        onClick={async () => {setLoadingOpening(true); setShowOpeningAnimation(true); await setTimeout(function() { setStartFade(true); setCurVideo('http://content.viridianexchange.com/videos/transition-short-crop.mp4') }, 9100); await setTimeout(function() { setCurVideo('https://content.viridianexchange.com/videos/PikachuLoop.mp4');
-                            }, 10000);
-                            await setTimeout(function() {
-                            setStartFade(false); }, 10250); }}
+                        onClick={async () => {setLoadingOpening(true); await openPack(props.account, tokenIds[currentIndex], setLoadingOpening, "", setMinted).then(() =>
+                        {runOpeningAnimation();}) }}
                     >
                         <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
                              src='/trading_card_icon.svg'
-                             alt='ETH' /> {"Open Pack " + idParse(tokenIds[currentIndex])}
+                             alt='ETH' /> {"Open Pack " + idParse(packNums[currentIndex])}
                     </button>}
                 </div>}
             </div>

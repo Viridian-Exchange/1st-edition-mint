@@ -7,9 +7,9 @@ import vTJSON from "../abis/MetaTransactionTokenABI.json";
 import Web3 from "web3";
 import {Biconomy} from "@biconomy/mexa";
 //let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
-let walletWeb3 = new Web3(Web3.givenProvider || Web3.providers.HttpProvider( "https://eth-mainnet.alchemyapi.io/v2/w3ToNmNGlD_uHM3H6CLfkXB0s2FVKY6M"));
+let walletWeb3 = new Web3(Web3.givenProvider || Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
-const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-mainnet.alchemyapi.io/v2/w3ToNmNGlD_uHM3H6CLfkXB0s2FVKY6M"),{apiKey: "l85zqDXIz.da8c87b4-e4eb-431d-8453-0bfef42c3fa2", debug: true});
+const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
 
 let biconomyWeb3 = new Web3(biconomy);
 
@@ -126,10 +126,10 @@ export async function approve(fromAddr, exchangeAddress) {
                     );
 }
 
-export async function allowance(from, exchangeAddress) {
+export async function tokenAllowance(from, exchangeAddress) {
     //const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
 
-    const vTContractAddress = '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619';
+    const vTContractAddress = config.rinkeby_contract_addresses.vt_contract;
 
     let vTABI = new walletWeb3.eth.Contract(vTJSON, vTContractAddress);
 
@@ -142,7 +142,9 @@ export async function allowance(from, exchangeAddress) {
 
     let infinite_approve_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935'; //(2^256 - 1 )
 
+    alert(from + " " + exchangeAddress)
     let tx = await vTABI.methods.allowance(from, exchangeAddress).call();
+    alert(tx);
 
     // await tx.on("transactionHash", function (hash) {
     //     console.log(`Transaction hash is ${hash}`);
@@ -162,7 +164,7 @@ export async function allowance(from, exchangeAddress) {
 export async function balanceOf(from) {
     //const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
 
-    const vTContractAddress = '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619';
+    const vTContractAddress = config.rinkeby_contract_addresses.vt_contract;
 
     let vTABI = new walletWeb3.eth.Contract(vTJSON, vTContractAddress);
 
@@ -193,7 +195,7 @@ export async function balanceOf(from) {
 export async function approveRegular(from, exchangeAddress) {
     //const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
 
-    const vTContractAddress = config.rinkeby_contract_addresses.vtContract;
+    const vTContractAddress = config.rinkeby_contract_addresses.vt_contract;
 
     let vTABI = new walletWeb3.eth.Contract(vTJSON, vTContractAddress);
 
@@ -204,7 +206,8 @@ export async function approveRegular(from, exchangeAddress) {
     //alert(await vTABI.methods.allowance(from, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047').call());
 
     let infinite_approve_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935'; //(2^256 - 1 )
-
+    
+    alert(from + " " + exchangeAddress);
     let tx = await vTABI.methods.approve(exchangeAddress, infinite_approve_amount).send({from: from, signatureType: biconomy.EIP712_SIGN});
 
     // await tx.on("transactionHash", function (hash) {
