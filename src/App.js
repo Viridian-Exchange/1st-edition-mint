@@ -58,10 +58,6 @@ const web3Modal = new Web3Modal({
     theme: "dark"
 });
 
-const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
-
-let biconomyWeb3 = new Web3(biconomy);
-
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
 // (triggered by follow button press-> calls the function which takes in an address and adds the user to the list of following)
@@ -91,20 +87,12 @@ function App() {
             const accounts = await library.eth.getAccounts();
             //alert(JSON.stringify(accounts));
             const network = await library.eth.net.getId();
-            alert(JSON.stringify(network));
+            //alert(JSON.stringify(network));
             setProvider(provider);
             setLibrary(library);
             if (accounts) setAccount(accounts[0]);
             setChainId(network);
 
-            biconomy.onEvent(biconomy.READY, () => {
-                // Initialize your dapp here like getting user accounts etc
-                console.log("Setting gasless ready");
-                setGaslessReady(true);
-            }).onEvent(biconomy.ERROR, (error, message) => {
-                // Handle error while initializing mexa
-                console.error(error);
-            });
         // } catch (error) {
         //     alert(JSON.stringify(error));
         // }

@@ -49,7 +49,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 await vtABI.events.Approval({filter: {to: account}}).on('data', async function (event) {
                     if (event) {
                         setApproved(true);
-                        alert('found event')
+                        //alert('found event')
                         await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
 
                         setApproveHash(event.transactionHash);
@@ -57,7 +57,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 });
             }
             else {
-                alert('already approved')
+                //alert('already approved')
                 setApproved(true);
                 await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
             }

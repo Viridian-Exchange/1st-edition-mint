@@ -19,6 +19,11 @@ import { switchNetwork } from "../../utils/walletHandlers";
 import WalletSelector from "../../components/WalletSelector";
 import Modal from "../../components/Modal";
 import MintTransaction from "../../components/MintTransaction";
+import vGPJSON from "../../abis/ViridianGenesisPack.json";
+import Web3 from "web3";
+import config from "../../local-dev-config";
+
+let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
 const Mint = (props) => {
     const [values, setValues] = useState([1]);
@@ -191,12 +196,12 @@ const Mint = (props) => {
                         )}
                     />
                     </div>
-                    <Modal
-                        visible={minting}
-                        onClose={() => setMinting(false)}
-                    >
-                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
-                    </Modal>
+                    {/*<Modal*/}
+                    {/*    visible={minting}*/}
+                    {/*    onClose={() => setMinting(false)}*/}
+                    {/*>*/}
+                    {/*    <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />*/}
+                    {/*</Modal>*/}
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>
                             <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
@@ -206,11 +211,21 @@ const Mint = (props) => {
                     <div style={{textAlign: 'center', marginTop: '4ex'}}>
                         {props.account ? <div> {!minting ? <button
                             className={cn(styles.link, {})}
-                            onClick={async () => {setMinting(true); /*await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);*/}}
-                        > {props.gaslessReady ? <>
+                            onClick={async () => {setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);
+
+                                let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], config.rinkeby_contract_addresses.vgp_contract);
+
+                                await vNFTABIWS.events.Transfer({filter: {from: props.account}}).on('data', async function (event) {
+                                    setMintSucceeded(true);
+                                    setMintFailed(false);
+                                    setMinting(false);
+                                    setMinted(minted + 1);
+                                }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
+                            }}
+                        > <>
                             <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
                                  src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
-                                 alt='ETH' /> Mint with Polygon ETH </> : <div style={{marginBottom: '1.5ex'}}><ReactLoading type={'spin'} color={'#bf9a36'} height={'20%'} width={'20%'} /><div style={{marginLeft: '6ex', marginTop: '-3.75ex'}}>Loading Gasless...</div></div>}
+                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} </>
                         </button> : <button
                             className={cn(styles.link, {
                                 [styles.active]: true,

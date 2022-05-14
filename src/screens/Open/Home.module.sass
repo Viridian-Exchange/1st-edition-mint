@@ -230,3 +230,22 @@
   width: 100px
   height: 100px
   transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s
+
+.input
+  width: 30%
+  height: 48px
+  padding: 0 48px 0 14px
+  border-radius: 24px
+  background: none
+  border: 2px solid $neutrals6
+  +poppins
+  +caption-1
+  color: $neutrals2
+  transition: border-color .2s
+  +dark
+    border-color: $neutrals3
+    color: $neutrals8
+  &:focus
+    border-color: $neutrals4
+  +placeholder
+    color: $neutrals4

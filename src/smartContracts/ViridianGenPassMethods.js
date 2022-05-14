@@ -8,17 +8,7 @@ let web3Wallet = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider(
 //
 let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 //
-const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
-
-let biconomyWeb3 = new Web3(biconomy);
-
-biconomy.onEvent(biconomy.READY, () => {
-    // Initialize your dapp here like getting user accounts etc
-    console.log("initialized gasless transaction");
-}).onEvent(biconomy.ERROR, (error, message) => {
-    // Handle error while initializing mexa
-    console.error(error);
-});
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
 // export async function tokenURI(tokenId) {
 //     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
@@ -68,12 +58,11 @@ export async function mint(from, numMint, setSuccess, setFailed, setMinting) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new biconomyWeb3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    let vNFTABI = new web3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
     try {
         await vNFTABI.methods.mint(numMint, from).send({
             from: from, //value: (100000000000000000 * numMint).toString(),
-            signatureType: biconomy.EIP712_SIGN
         });
 
         let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
@@ -91,17 +80,43 @@ export async function mint(from, numMint, setSuccess, setFailed, setMinting) {
     }
 }
 
-export async function openPack(from, tokenId, setSuccess, setFailed, setMinting) {
+export async function open(from, tokenId, setSuccess, setFailed, setMinting) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new biconomyWeb3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    let vNFTABI = new web3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
     alert(tokenId);
     try {
-        await vNFTABI.methods.openPack(tokenId).send({
-            from: from,
-            signatureType: biconomy.EIP712_SIGN
+        await vNFTABI.methods.open(tokenId).send({
+            from: from
+        });
+
+        // let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+        //
+        // await vNFTABIWS.events.Transfer({filter: {from: from}}).on('data', async function (event) {
+        //     setSuccess(true);
+        //     setFailed(false);
+        //     setMinting(false);
+        // }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
+
+    } catch(e) {
+        console.error(e);
+        //setFailed(true);
+        setMinting(false);
+    }
+}
+
+export async function openTo(from, to, tokenId, setSuccess, setFailed, setMinting) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
+
+    let vNFTABI = new web3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    //alert((100000000000000000 * numMint).toString());
+    //alert(tokenId);
+    try {
+        await vNFTABI.methods.openTo(tokenId, to).send({
+            from: from
         });
 
         // let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);

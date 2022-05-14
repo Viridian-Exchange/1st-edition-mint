@@ -3,12 +3,13 @@ import cn from "classnames";
 import ProgressBar from "@ramonak/react-progress-bar";
 import styles from "./Home.module.sass";
 import {getTrackBackground, Range} from "react-range";
-import {totalSupply, mint, getOwnedNFTs, openPack, tokenURI} from "../../smartContracts/ViridianGenPassMethods"
+import {totalSupply, mint, getOwnedNFTs, open, openTo, tokenURI} from "../../smartContracts/ViridianGenPassMethods"
 //import {useCryptoPrices} from "react-realtime-crypto-prices";
 import {Breakpoint} from 'react-socks';
 import {Carousel} from '3d-react-carousal';
 import ReactLoading from "react-loading";
 import { BlurTransition } from "react-transitions-library";
+import Switch from "../../components/Switch";
 
 const Open = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -20,12 +21,14 @@ const Open = (props) => {
     const [showOpeningAnimation, setShowOpeningAnimation] = useState(false);
     const [showOpenedCard, setShowOpenedCard] = useState(false);
     const [startFade, setStartFade] = useState(false);
-    const [slides, setSlides] = useState([]);
+    //const [slides, setSlides] = useState([]);
     const [tokenIds, setTokenIds] = useState([]);
     const [packNums, setPackNums] = useState([]);
     const [showCardVideo, setShowCardVideo] = useState(false);
     const [curVideo, setCurVideo] = useState('https://content.viridianexchange.com/videos/PackOpenAnimation.mp4')
     const [fetched, setFetched] = useState(false);
+    const [streamerModeActive, setStreamerModeActive] = useState(false);
+    const [streamerReceiver, setStreamerReceiver] = useState('');
 
     const STEP = 1;
     const MIN = 1;
@@ -62,7 +65,8 @@ const Open = (props) => {
                     tID.push(x);
                 });
 
-                setSlides(slidesTemp);
+                //TODO: ADD THIS BACK!!!
+                //setSlides(slidesTemp);
                 slidesTemp = [];
                 setPackNums(pID);
                 setTokenIds(tID);
@@ -74,13 +78,13 @@ const Open = (props) => {
         }
     }, [fetched, props]);
 
-    // let slides = [
-    //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />,
-    //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />,
-    //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />,
-    //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />,
-    //     <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-    // ]
+    let slides = [
+        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
+        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
+        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
+        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
+        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />
+    ]
 
     const runOpeningAnimation = async () => {
         setShowOpeningAnimation(true); await setTimeout(function() { setStartFade(true); setCurVideo('http://content.viridianexchange.com/videos/transition-short-crop.mp4') }, 9100); await setTimeout(function() { setCurVideo('https://content.viridianexchange.com/videos/PikachuLoop.mp4');
@@ -183,17 +187,42 @@ const Open = (props) => {
                         <ReactLoading type={'spin'} color={'#bf9a36'} height={'25%'} width={'25%'} /> <div style={{marginLeft: '6ex', marginTop: '-2.75ex', marginBottom: '1ex'}}>Opening...</div>
                     </button>}
 
-                    {!loadingOpening && <button
+                    {!loadingOpening && <>{streamerModeActive ? <button
                         className={cn(styles.link, {
                         })}
-                        onClick={async () => {setLoadingOpening(true); await openPack(props.account, tokenIds[currentIndex], setLoadingOpening, "", setMinted).then(() =>
+                        onClick={async () => {setLoadingOpening(true); await open(props.account, tokenIds[currentIndex], setLoadingOpening, "", setMinted).then(() =>
                         {runOpeningAnimation();}) }}
                     >
                         <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
                              src='/trading_card_icon.svg'
                              alt='ETH' /> {"Open Pack " + idParse(packNums[currentIndex])}
-                    </button>}
+                    </button>: <button
+                            className={cn(styles.link, {
+                            })}
+                            onClick={async () => {setLoadingOpening(true); await openTo(props.account, streamerReceiver, tokenIds[currentIndex], setLoadingOpening, "", setMinted).then(() =>
+                            {runOpeningAnimation();}) }}
+                        >
+                            <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
+                                 src='/trading_card_icon.svg'
+                                 alt='ETH' /> {"Open Pack " + idParse(packNums[currentIndex])}
+                        </button>}</>}
                 </div>}
+            </div>
+            <div style={{textAlign: 'center', marginTop: '5ex'}}>
+                {streamerModeActive && <div style={{marginBottom: '10px'}}>
+                    <div>Break Reciever Address</div>
+                    <input
+                    className={styles.input}
+                    //type={type}
+                    value={streamerReceiver}
+                    onChange={(e) => setStreamerReceiver(e.target.value)}
+                    name='Reciever Address'
+                    placeholder='0x...'
+                    required
+                />
+                </div>}
+                <Switch value={streamerModeActive} setValue={setStreamerModeActive}/>
+                <div style={{color: 'grey'}}>Streamer Mode</div>
             </div>
         </div>
     </>
