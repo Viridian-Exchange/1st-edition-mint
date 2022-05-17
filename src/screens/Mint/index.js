@@ -271,6 +271,7 @@ const Mint = (props) => {
                             className={cn(styles.link, {
                                 [styles.active]: false,
                             })}
+                            onClick={() => {props.connectWallet()}}
                         > <div style={{color: 'white'}}>
                             <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
                                  src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'

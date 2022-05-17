@@ -212,7 +212,7 @@ function App() {
                     path="/genesis-drop"
                     render={() => (
                         <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Mint biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} />
+                          <Mint biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
                         </Page>
                     )}
                 />
