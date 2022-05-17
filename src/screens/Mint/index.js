@@ -23,8 +23,6 @@ import vGPJSON from "../../abis/ViridianGenesisPack.json";
 import Web3 from "web3";
 import config from "../../local-dev-config";
 
-let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
-
 const Mint = (props) => {
     const [values, setValues] = useState([1]);
     const [minted, setMinted] = useState(0);
@@ -211,16 +209,53 @@ const Mint = (props) => {
                     <div style={{textAlign: 'center', marginTop: '4ex'}}>
                         {props.account ? <div> {!minting ? <button
                             className={cn(styles.link, {})}
-                            onClick={async () => {setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);
+                            onClick={async () => {
+                                const web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
                                 let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], config.rinkeby_contract_addresses.vgp_contract);
 
-                                await vNFTABIWS.events.Transfer({filter: {from: props.account}}).on('data', async function (event) {
+                                // await vNFTABIWS.events.Mint({filter: {from: props.account}}).on('data', async function (event) {
+                                //     alert('FFmntd' + JSON.stringify(event))
+                                //     setMintSucceeded(true);
+                                //     setMintFailed(false);
+                                //     setMinting(false);
+                                //     setMinted(minted + values[0]);
+                                // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
+                                //
+                                // await vNFTABIWS.events.Transfer({filter: {from: props.account}}).on('data', async function (event) {
+                                //     alert('FFtrsfr' + JSON.stringify(event))
+                                //     setMintSucceeded(true);
+                                //     setMintFailed(false);
+                                //     setMinting(false);
+                                //     setMinted(minted + values[0]);
+                                // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
+                                //
+                                // await vNFTABIWS.events.Mint({filter: {to: props.account}}).on('data', async function (event) {
+                                //     alert('mntd' + JSON.stringify(event))
+                                //     setMintSucceeded(true);
+                                //     setMintFailed(false);
+                                //     setMinting(false);
+                                //     setMinted(minted + values[0]);
+                                // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
+
+                                await vNFTABIWS.events.Transfer({filter: {to: props.account}}).on('data', async function (event) {
+                                    //alert('trsfr' + JSON.stringify(event))
                                     setMintSucceeded(true);
                                     setMintFailed(false);
                                     setMinting(false);
-                                    setMinted(minted + 1);
-                                }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
+                                    setMinted(parseInt(minted) + parseInt(values[0]));
+
+                                    setTimeout(() => {
+                                        setMintSucceeded(false);
+                                    }, "10000");
+                                }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);
+                                    setTimeout(() => {
+                                        setMintFailed(false);
+                                    }, "5000");});
+
+                                setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);
+
+
                             }}
                         > <>
                             <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
@@ -251,7 +286,7 @@ const Mint = (props) => {
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",
-                                    price: "0.1",
+                                    price: "0.2",
                                     _numMint: values[0],
                                     _to: props.account
                                 }}

@@ -61,22 +61,28 @@ export async function mint(from, numMint, setSuccess, setFailed, setMinting) {
     let vNFTABI = new web3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
     try {
+        //let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+        //console.log('checking transfer event')
+        // await vNFTABIWS.events.Transfer({filter: {to: from}}).on('data', async function (event) {
+        //     alert("BREH")
+        //     setSuccess(true);
+        //     setFailed(false);
+        //     setMinting(false);
+        // }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
+
+
         await vNFTABI.methods.mint(numMint, from).send({
-            from: from, //value: (100000000000000000 * numMint).toString(),
+            from: from, value: (200000000000000000 * numMint).toString(),
         });
 
-        let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
-
-        await vNFTABIWS.events.Mint({filter: {from: from}}).on('data', async function (event) {
-            setSuccess(true);
-            setFailed(false);
-            setMinting(false);
-        }).on('err', (e) => {console.error(e); setFailed(true); setMinting(false);});
 
     } catch(e) {
         console.error(e);
         setFailed(true);
         setMinting(false);
+        setTimeout(() => {
+            setFailed(false);
+        }, "5000");
     }
 }
 
