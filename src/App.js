@@ -216,33 +216,33 @@ function App() {
                         </Page>
                     )}
                 />
-                <Route
-                    exact
-                    path="/open"
-                    render={() => (
-                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
-                        </Page>
-                    )}
-                />
-                <Route
-                    exact
-                    path="/verify"
-                    render={() => (
-                        <Page>
-                          <Verify  />
-                        </Page>
-                    )}
-                />
-                <Route
-                    exact
-                    path="/faq"
-                    render={() => (
-                        <Page>
-                          <Faq />
-                        </Page>
-                    )}
-                />
+                {/*<Route*/}
+                {/*    exact*/}
+                {/*    path="/open"*/}
+                {/*    render={() => (*/}
+                {/*        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>*/}
+                {/*          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />*/}
+                {/*        </Page>*/}
+                {/*    )}*/}
+                {/*/>*/}
+                {/*<Route*/}
+                {/*    exact*/}
+                {/*    path="/verify"*/}
+                {/*    render={() => (*/}
+                {/*        <Page>*/}
+                {/*          <Verify  />*/}
+                {/*        </Page>*/}
+                {/*    )}*/}
+                {/*/>*/}
+                {/*<Route*/}
+                {/*    exact*/}
+                {/*    path="/faq"*/}
+                {/*    render={() => (*/}
+                {/*        <Page>*/}
+                {/*          <Faq />*/}
+                {/*        </Page>*/}
+                {/*    )}*/}
+                {/*/>*/}
                 <Route path="*">
                   <Redirect to="/genesis-drop" />
                 </Route>

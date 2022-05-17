@@ -27,40 +27,42 @@ const Headers = (props) => {
                     >
                       Mint
                     </Link>
-                    <Link
-                        style={{marginTop: '2ex'}}
-                        className={styles.link}
-                        activeClassName={styles.active}
-                        to="/open"
-                        key={2}
-                    >
-                      Open
-                    </Link>
-                    <Link
-                        style={{marginTop: '2ex'}}
-                        className={styles.link}
-                        activeClassName={styles.active}
-                        to="/verify"
-                        key={2}
-                    >
-                      Verify
-                    </Link>
+                    {/*<Link*/}
+                    {/*    style={{marginTop: '2ex'}}*/}
+                    {/*    className={styles.link}*/}
+                    {/*    activeClassName={styles.active}*/}
+                    {/*    to="/open"*/}
+                    {/*    key={2}*/}
+                    {/*>*/}
+                    {/*  Open*/}
+                    {/*</Link>*/}
+                    {/*<Link*/}
+                    {/*    style={{marginTop: '2ex'}}*/}
+                    {/*    className={styles.link}*/}
+                    {/*    activeClassName={styles.active}*/}
+                    {/*    to="/verify"*/}
+                    {/*    key={2}*/}
+                    {/*>*/}
+                    {/*  Verify*/}
+                    {/*</Link>*/}
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
                         href="https://viridianexchange.com"
+                        target="_blank" rel="noopener noreferrer"
                         // key={0}
                     >
                       About
                     </a>
-                    <Link
+                    <a
                         className={styles.link}
-                        activeClassName={styles.active}
-                        to="/faq"
+                        // activeClassName={styles.active}
+                        href="https://docs.viridianexchange.com"
+                        target="_blank" rel="noopener noreferrer"
                         key={3}
                     >
                       Help
-                    </Link>
+                    </a>
                   </nav>
                 </div>
               {/*TODO: Change to "LINK"*/}
@@ -102,22 +104,22 @@ const Headers = (props) => {
               >
                 Mint
               </Link>
-              <Link
-                  className={styles.link}
-                  activeClassName={styles.active}
-                  to="/open"
-                  key={1}
-              >
-                Open
-              </Link>
-              <Link
-                  className={styles.link}
-                  activeClassName={styles.active}
-                  to="/verify"
-                  key={1}
-              >
-                Verify
-              </Link>
+              {/*<Link*/}
+              {/*    className={styles.link}*/}
+              {/*    activeClassName={styles.active}*/}
+              {/*    to="/open"*/}
+              {/*    key={1}*/}
+              {/*>*/}
+              {/*  Open*/}
+              {/*</Link>*/}
+              {/*<Link*/}
+              {/*    className={styles.link}*/}
+              {/*    activeClassName={styles.active}*/}
+              {/*    to="/verify"*/}
+              {/*    key={1}*/}
+              {/*>*/}
+              {/*  Verify*/}
+              {/*</Link>*/}
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
@@ -127,23 +129,24 @@ const Headers = (props) => {
               >
                 About
               </a>
-              <Link
+              <a
                   className={styles.link}
-                  activeClassName={styles.active}
-                  to="/faq"
-                  key={4}
+                  // activeClassName={styles.active}
+                  href="https://docs.viridianexchange.com"
+                  target="_blank" rel="noopener noreferrer"
+                  key={3}
               >
                 Help
-              </Link>
+              </a>
             </nav>
           </div>
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
            target="_blank" rel="noopener noreferrer"
-              href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+              href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
             //to="/BuyCrypto"
             >
-          Buy Polygon ETH
+          Buy ETH
         </a>
         <User connectWallet={props.connectWallet} disconnect={props.disconnect} setVisibleModalWallets={props.setVisibleModalWallets} setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
