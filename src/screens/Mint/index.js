@@ -287,7 +287,7 @@ const Mint = (props) => {
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",
-                                    price: "0.2",
+                                    price: "0.22",
                                     _numMint: values[0],
                                     _to: props.account
                                 }}

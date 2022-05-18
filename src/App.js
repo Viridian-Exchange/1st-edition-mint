@@ -35,7 +35,8 @@ const providerOptions = {
     walletconnect: {
         package: WalletConnectProvider, // required
         options: {
-            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"
+            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js",
+            chainId: 4, // Optional. It defaults to 1 if not provided
         }
     },
 };
