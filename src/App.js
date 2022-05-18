@@ -27,7 +27,7 @@ const providerOptions = {
         package: CoinbaseWalletSDK, // Required
         options: {
             appName: "Viridian Exchange", // Required
-            infuraId: "c2ccaf282d324e8983bcb0c6ffaa05a6", // Optional if `infuraId` is provided; otherwise it's required
+            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js", // Optional if `infuraId` is provided; otherwise it's required
             chainId: 4, // Optional. It defaults to 1 if not provided
             darkMode: true // Optional. Use dark theme, defaults to false
         }
@@ -35,7 +35,7 @@ const providerOptions = {
     walletconnect: {
         package: WalletConnectProvider, // required
         options: {
-            rpc: "https://rinkeby.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6s",
+            rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js",
             chainId: 4, // Optional. It defaults to 1 if not provided
         }
     },
@@ -83,7 +83,8 @@ function App() {
     const connectWallet = async () => {
         //try {
             const provider = await web3Modal.connect();
-            const library = new Web3(provider);
+            let library = new Web3(provider);
+            setLibrary(library);
             //alert(JSON.stringify(library.givenProvider));
             const accounts = await library.eth.getAccounts();
             //alert(JSON.stringify(accounts));
@@ -213,7 +214,7 @@ function App() {
                     path="/genesis-drop"
                     render={() => (
                         <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Mint biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
+                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
                         </Page>
                     )}
                 />

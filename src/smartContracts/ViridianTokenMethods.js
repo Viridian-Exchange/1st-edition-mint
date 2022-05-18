@@ -11,7 +11,7 @@ let walletWeb3 = new Web3(Web3.givenProvider || Web3.providers.HttpProvider( "ht
 
 const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"),{apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
 
-let biconomyWeb3 = new Web3(biconomy);
+// let biconomyWeb3 = new Web3(biconomy);
 
 // biconomy.onEvent(biconomy.READY, () => {
 //     // Initialize your dapp here like getting user accounts etc
@@ -75,7 +75,7 @@ export async function approve(fromAddr, exchangeAddress) {
     };
 
 
-        let contract = new biconomyWeb3.eth.Contract(
+        let contract = new walletWeb3.eth.Contract(
             vTJSON,
             vTContractAddress);
 

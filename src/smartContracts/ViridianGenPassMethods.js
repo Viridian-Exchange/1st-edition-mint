@@ -8,7 +8,7 @@ let web3Wallet = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider(
 //
 let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 //
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
+let web3 = new Web3(Web3.givenProvider);// || new Web3.providers.HttpProvider( "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
 
 // export async function tokenURI(tokenId) {
 //     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
@@ -54,11 +54,11 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider( "http
 //     return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send({from: from});
 // }
 
-export async function mint(from, numMint, setSuccess, setFailed, setMinting) {
+export async function mint(from, numMint, setSuccess, setFailed, setMinting, library) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
-    let vNFTABI = new web3.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
+    let vNFTABI = new library.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
     //alert((100000000000000000 * numMint).toString());
     try {
         //let vNFTABIWS = new web3WS.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
@@ -187,7 +187,7 @@ export async function isAddressWhitelisted(address) {
     const vNFTContractAddress = config.rinkeby_contract_addresses.vgp_contract;
 
     let vNFTABI = new web3Wallet.eth.Contract(vGPJSON['abi'], vNFTContractAddress);
-    return await vNFTABI.methods.isAddressWhitelisted().call();
+    return await vNFTABI.methods.isAddressWhitelisted(address).call();
     //}
     //return await vNFTABI.methods.getNumNFTs().call();
 }

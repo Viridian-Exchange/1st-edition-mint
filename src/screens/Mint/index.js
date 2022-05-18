@@ -38,13 +38,15 @@ const Mint = (props) => {
     const MAX = 10;
 
     useEffect(async () => {
-        setAddressOnWhitelist(true);
-        setMinted(await totalSupply());
-        setWhitelistMintingEnabled(await isWhitelistMintingEnabled());
-        //setWhitelistMintingEnabled(true);
-        setPublicMintingEnabled(await isPublicMintingEnabled());
-        //setPublicMintingEnabled(true);
-    }, []);
+        if (props.library && props.account) {
+            setAddressOnWhitelist(await isAddressWhitelisted(props.account));
+            setMinted(await totalSupply(props.library));
+            setWhitelistMintingEnabled(await isWhitelistMintingEnabled(props.library));
+            //setWhitelistMintingEnabled(true);
+            setPublicMintingEnabled(await isPublicMintingEnabled(props.library));
+            //setPublicMintingEnabled(true);
+        }
+    }, [props.library, props.account]);
 
     document.getElementsByClassName('crossmintParagraph-2-2-3 crossmintParagraph-d3-2-2-7').innerText = 'Hide';
 
@@ -253,7 +255,7 @@ const Mint = (props) => {
                                         setMintFailed(false);
                                     }, "5000");});
 
-                                setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting);
+                                setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting, props.library);
 
 
                             }}
