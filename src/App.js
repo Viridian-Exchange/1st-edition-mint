@@ -27,7 +27,7 @@ const providerOptions = {
         package: CoinbaseWalletSDK, // Required
         options: {
             appName: "Viridian Exchange", // Required
-            rpc: "https://rinkeby.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6", // Optional if `infuraId` is provided; otherwise it's required
+            infuraId: "c2ccaf282d324e8983bcb0c6ffaa05a6", // Optional if `infuraId` is provided; otherwise it's required
             chainId: 4, // Optional. It defaults to 1 if not provided
             darkMode: true // Optional. Use dark theme, defaults to false
         }
