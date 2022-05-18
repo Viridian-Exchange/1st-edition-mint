@@ -38,8 +38,10 @@ const Mint = (props) => {
     const MAX = 10;
 
     useEffect(async () => {
-        if (props.library && props.account) {
-            setAddressOnWhitelist(await isAddressWhitelisted(props.account));
+        if (props.library) {
+            if (props.account) {
+                setAddressOnWhitelist(await isAddressWhitelisted(props.account));
+            }
             setMinted(await totalSupply(props.library));
             setWhitelistMintingEnabled(await isWhitelistMintingEnabled(props.library));
             //setWhitelistMintingEnabled(true);
