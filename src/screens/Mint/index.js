@@ -203,7 +203,7 @@ const Mint = (props) => {
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>
                             <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                            {values[0] / 10}
+                            {values[0] / 5}
                         </div>
                     </h3>
                     <div style={{textAlign: 'center', marginTop: '4ex'}}>
