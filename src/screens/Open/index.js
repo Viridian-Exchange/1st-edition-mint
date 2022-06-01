@@ -116,7 +116,7 @@ const Open = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <p2 style={{color: 'grey'}}>Reveal the physically-backed NFT inside!</p2>
+                <p2 style={{color: 'grey'}}>Reveal the physically-backed NFTs inside your Viridian Genesis Packs</p2>
                 <h3 className={cn("h3", styles.title)}>Open Viridian Genesis Packs</h3>
                 {showOpeningAnimation && <BlurTransition
                     in={startFade}

@@ -206,53 +206,35 @@ function App() {
                     exact
                     path="/"
                 >
-                  <Redirect to="/genesis-drop" />
+                  <Redirect to="/mint" />
                 </Route>
                 <Route
                     exact
-                    path="/genesis-drop"
+                    path="/mint"
                     render={() => (
                         <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
                           <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
                         </Page>
                     )}
                 />
-              <Route
-                  exact
-                  path="/genesis-drop-ntwrk"
-                  render={() => (
-                      <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
-                      </Page>
-                  )}
-              />
-              <Route
-                  exact
-                  path="/genesis-drop-drip"
-                  render={() => (
-                      <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
-                      </Page>
-                  )}
-              />
-                {/*<Route*/}
-                {/*    exact*/}
-                {/*    path="/open"*/}
-                {/*    render={() => (*/}
-                {/*        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>*/}
-                {/*          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />*/}
-                {/*        </Page>*/}
-                {/*    )}*/}
-                {/*/>*/}
-                {/*<Route*/}
-                {/*    exact*/}
-                {/*    path="/verify"*/}
-                {/*    render={() => (*/}
-                {/*        <Page>*/}
-                {/*          <Verify  />*/}
-                {/*        </Page>*/}
-                {/*    )}*/}
-                {/*/>*/}
+                <Route
+                    exact
+                    path="/open"
+                    render={() => (
+                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
+                        </Page>
+                    )}
+                />
+                <Route
+                    exact
+                    path="/verify"
+                    render={() => (
+                        <Page>
+                          <Verify  />
+                        </Page>
+                    )}
+                />
                 {/*<Route*/}
                 {/*    exact*/}
                 {/*    path="/faq"*/}
@@ -263,7 +245,7 @@ function App() {
                 {/*    )}*/}
                 {/*/>*/}
                 <Route path="*">
-                  <Redirect to="/genesis-drop" />
+                  <Redirect to="/mint" />
                 </Route>
               </Switch>
             </Router>

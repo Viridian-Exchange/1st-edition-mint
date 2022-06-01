@@ -17,8 +17,9 @@ button.my-custom-crossmint-button {
   border-color: white;
   border-radius: 3ex;
   color: black;
-  margin-right: 0.5ex;
-  margin-left: 0.5ex;
+  margin-right: 1ex;
+  margin-left: 1ex;
+  margin-top: -1ex;
 }
 
 .crossmintParagraph-0-2-3.crossmintParagraph-d3-0-2-7 {

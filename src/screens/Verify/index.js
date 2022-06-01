@@ -55,7 +55,8 @@ const Drops = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <h3 className={cn("h3", styles.title)}>Verify Viridian Genesis Pack</h3>
+                <p2 style={{color: 'grey'}}>Verify that the metadata matches the assets backing your Viridian NFTs</p2>
+                <h3 className={cn("h3", styles.title)}>Verify Integrity of Viridian NFTs</h3>
                 <Breakpoint small down>
                     <div style={{textAlign: 'center'}}>
                         <Carousel slides={slides} onSlideChange={callback}/>
@@ -86,7 +87,10 @@ const Drops = (props) => {
                         })}
                         onClick={async () => {await mint(props.account, values[0])}}
                     >
-                        Verify ✅
+                        <>
+                            <img style={{width: '4.5ex', marginRight: '1ex'}}
+                                 src='verify.svg'
+                                 alt='ETH' /> Verify Integrity </>
                     </button>
                 </div>
             </div>

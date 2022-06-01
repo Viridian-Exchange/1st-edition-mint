@@ -88,7 +88,7 @@ const Mint = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
+                <p2 style={{color: 'grey'}}>Purchase Viridian Genesis Packs containing physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
                 {/*{publicMintingEnabled + "|" + whitelistMintingEnabled}*/}
                 <Breakpoint small down>
