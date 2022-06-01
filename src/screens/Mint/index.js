@@ -269,9 +269,9 @@ const Mint = (props) => {
 
                             }}
                         > <>
-                            <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
-                                 src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
-                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} </>
+                            <img style={{width: '2.5ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
+                                 src='https://openseauserdata.com/files/265128aa51521c90f7905e5a43dcb456_new.svg'
+                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} with Polygon ETH </>
                         </button> : <button
                             className={cn(styles.link, {
                                 [styles.active]: true,
@@ -285,7 +285,7 @@ const Mint = (props) => {
                             onClick={() => {props.connectWallet()}}
                         > <div style={{color: 'white'}}>
                             <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
-                                 src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
+                                 src='https://openseauserdata.com/files/265128aa51521c90f7905e5a43dcb456_new.svg'
                                  alt='ETH' />
                             Connect Wallet to Mint w/ Ξ</div>
                         </button>}
@@ -295,6 +295,20 @@ const Mint = (props) => {
                                 collectionDescription="Viridian testnet pack system"
                                 collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
                                 clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                className="my-custom-crossmint-button"
+                                mintConfig={{
+                                    type: "erc-721",
+                                    price: "0.22",
+                                    _numMint: values[0],
+                                    _to: props.account
+                                }}
+                            />}
+                            {publicMintingEnabled && <CrossmintPayButton
+                                collectionTitle="Viridian Genesis Pack Testnet"
+                                collectionDescription="Viridian testnet pack system"
+                                collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
+                                clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                paymentMethod="ETH"
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",

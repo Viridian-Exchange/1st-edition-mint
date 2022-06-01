@@ -140,11 +140,16 @@ const Headers = (props) => {
               </a>
             </nav>
           </div>
-        {/*TODO: Change to "LINK"*/}
+        <a className={cn("button-small", styles.button)}
+           style={{backgroundColor: '#9757D7'}}
+           target="_blank" rel="noopener noreferrer"
+           href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+        >
+          Buy Polygon ETH
+        </a>
         <a className={cn("button-small", styles.button)}
            target="_blank" rel="noopener noreferrer"
               href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
-            //to="/BuyCrypto"
             >
           Buy ETH
         </a>

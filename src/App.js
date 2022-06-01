@@ -217,6 +217,24 @@ function App() {
                         </Page>
                     )}
                 />
+              <Route
+                  exact
+                  path="/genesis-drop-ntwrk"
+                  render={() => (
+                      <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
+                      </Page>
+                  )}
+              />
+              <Route
+                  exact
+                  path="/genesis-drop-drip"
+                  render={() => (
+                      <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
+                      </Page>
+                  )}
+              />
                 {/*<Route*/}
                 {/*    exact*/}
                 {/*    path="/open"*/}
