@@ -126,7 +126,16 @@ const Mint = (props) => {
                         step={STEP}
                         min={MIN}
                         max={MAX}
-                        onChange={(values) => {setValues(values);}}
+                        onChange={(values) => {
+                            if (whitelistMintingEnabled && addressOnWhitelist) {
+                                if (values[0] <= 2) {
+                                    setValues(values);
+                                }
+                            }
+                            else if (publicMintingEnabled) {
+                                setValues(values);
+                            }
+                        }}
                         renderTrack={({ props, children }) => (
                             <div
                                 onMouseDown={props.onMouseDown}
