@@ -9,7 +9,15 @@ import  { Breakpoint } from 'react-socks';
 
 const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
+  const [collabLogo, setCollabLogo] = useState(false);
 
+  useEffect(() => {
+    let url = window.location.href;
+
+    if (url.includes("ntwrk")) {
+      setCollabLogo(true);
+    }
+  }, [])
 
   return (
       <>
@@ -19,38 +27,35 @@ const Headers = (props) => {
                 <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
                   <nav className={styles.nav}>
                     <Link
-                        style={{marginTop: '2ex'}}
                         className={styles.link}
                         activeClassName={styles.active}
-                        to="/genesis-drop"
-                        key={1}
+                        to="/mint"
+                        key={0}
                     >
                       Mint
                     </Link>
-                    {/*<Link*/}
-                    {/*    style={{marginTop: '2ex'}}*/}
-                    {/*    className={styles.link}*/}
-                    {/*    activeClassName={styles.active}*/}
-                    {/*    to="/open"*/}
-                    {/*    key={2}*/}
-                    {/*>*/}
-                    {/*  Open*/}
-                    {/*</Link>*/}
-                    {/*<Link*/}
-                    {/*    style={{marginTop: '2ex'}}*/}
-                    {/*    className={styles.link}*/}
-                    {/*    activeClassName={styles.active}*/}
-                    {/*    to="/verify"*/}
-                    {/*    key={2}*/}
-                    {/*>*/}
-                    {/*  Verify*/}
-                    {/*</Link>*/}
+                    <Link
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/open"
+                        key={1}
+                    >
+                      Open
+                    </Link>
+                    <Link
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/verify"
+                        key={2}
+                    >
+                      Verify
+                    </Link>
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
                         href="https://viridianexchange.com"
                         target="_blank" rel="noopener noreferrer"
-                        // key={0}
+                        key={3}
                     >
                       About
                     </a>
@@ -59,19 +64,24 @@ const Headers = (props) => {
                         // activeClassName={styles.active}
                         href="https://docs.viridianexchange.com"
                         target="_blank" rel="noopener noreferrer"
-                        key={3}
+                        key={4}
                     >
                       Help
                     </a>
                   </nav>
                 </div>
-              {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
-                    href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+                 style={{backgroundColor: '#9757D7'}}
                  target="_blank" rel="noopener noreferrer"
-                  //to="/BuyCrypto"
-                  >
+                 href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+              >
                 Buy Polygon ETH
+              </a>
+              <a className={cn("button-small", styles.button)}
+                 target="_blank" rel="noopener noreferrer"
+                 href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
+              >
+                Buy ETH
               </a>
 
               <User setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
@@ -86,43 +96,58 @@ const Headers = (props) => {
       <Breakpoint medium up>
     <header className={styles.header}>
       <div className={cn("container", styles.container)}>
-        <Link className={styles.logo} to="/">
+        {!collabLogo ? <Link className={styles.logo} to="/">
           <Image
+              className={styles.pic}
+              src="/logo_words.svg"
+              srcDark="/logo_words.svg"
+              alt="Viridian Exchange"
+          /> </Link> :
+            <Link className={styles.logoCollab} to="/">
+            <Image
             className={styles.pic}
             src="/logo_words.svg"
             srcDark="/logo_words.svg"
             alt="Viridian Exchange"
           />
-        </Link>
+              <div style={{textAlign: 'center', color: 'white', marginLeft: '1ex',
+                marginTop: '0.5ex', marginRight: '-1ex', fontWeight: 'bold'}}>X</div>
+          <Image
+              className={styles.pics}
+              src="/ntwrk_logo_white.png"
+              srcDark="/ntwrk_logo_white.png"
+              alt="NTWRK"
+          />
+            </Link>}
           <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
-            <nav className={styles.nav}>
+            <nav className={cn(styles.nav, { [styles.active]: collabLogo })}>
               <Link
                   className={styles.link}
                   activeClassName={styles.active}
-                  to="/genesis-drop"
-                  key={1}
+                  to="/mint"
+                  key={0}
               >
                 Mint
               </Link>
-              {/*<Link*/}
-              {/*    className={styles.link}*/}
-              {/*    activeClassName={styles.active}*/}
-              {/*    to="/open"*/}
-              {/*    key={1}*/}
-              {/*>*/}
-              {/*  Open*/}
-              {/*</Link>*/}
-              {/*<Link*/}
-              {/*    className={styles.link}*/}
-              {/*    activeClassName={styles.active}*/}
-              {/*    to="/verify"*/}
-              {/*    key={1}*/}
-              {/*>*/}
-              {/*  Verify*/}
-              {/*</Link>*/}
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/open"
+                  key={1}
+              >
+                Open
+              </Link>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/verify"
+                  key={2}
+              >
+                Verify
+              </Link>
               <a
                   className={styles.link}
-                  // activeClassName={styles.active}
+                  //activeClassName={styles.active}
                   href="https://viridianexchange.com"
                   target="_blank" rel="noopener noreferrer"
                   key={3}
@@ -131,20 +156,25 @@ const Headers = (props) => {
               </a>
               <a
                   className={styles.link}
-                  // activeClassName={styles.active}
+                  //activeClassName={styles.active}
                   href="https://docs.viridianexchange.com"
                   target="_blank" rel="noopener noreferrer"
-                  key={3}
+                  key={4}
               >
                 Help
               </a>
             </nav>
           </div>
-        {/*TODO: Change to "LINK"*/}
+        <a className={cn("button-small", styles.button)}
+           style={{backgroundColor: '#9757D7'}}
+           target="_blank" rel="noopener noreferrer"
+           href="https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true"
+        >
+          Buy Polygon ETH
+        </a>
         <a className={cn("button-small", styles.button)}
            target="_blank" rel="noopener noreferrer"
               href="https://buy.moonpay.com/?currencyCode=eth&singleCurrencyMode=true"
-            //to="/BuyCrypto"
             >
           Buy ETH
         </a>

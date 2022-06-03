@@ -88,7 +88,7 @@ const Mint = (props) => {
     <>
         <div className={cn("section", styles.section)}>
             <div className={cn("container", styles.container)}>
-                <p2 style={{color: 'grey'}}>Viridian Packs contain physically-backed NFTs</p2>
+                <p2 style={{color: 'grey'}}>Purchase Viridian Genesis Packs containing physically-backed NFTs</p2>
                 <h3 className={cn("h3", styles.title)}>Mint Viridian Genesis Packs</h3>
                 {/*{publicMintingEnabled + "|" + whitelistMintingEnabled}*/}
                 <Breakpoint small down>
@@ -100,7 +100,7 @@ const Mint = (props) => {
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '30ex', borderRadius: '25px'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-8ex', maxWidth: '30ex', borderRadius: '25px'}}>
                             <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
                         </video>
                     </div>
@@ -205,12 +205,12 @@ const Mint = (props) => {
                         )}
                     />
                     </div>
-                    {/*<Modal*/}
-                    {/*    visible={minting}*/}
-                    {/*    onClose={() => setMinting(false)}*/}
-                    {/*>*/}
-                    {/*    <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />*/}
-                    {/*</Modal>*/}
+                    <Modal
+                        visible={minting}
+                        onClose={() => setMinting(false)}
+                    >
+                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
+                    </Modal>
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>
                             <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
@@ -249,29 +249,29 @@ const Mint = (props) => {
                                 //     setMinted(minted + values[0]);
                                 // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
 
-                                await vNFTABIWS.events.Transfer({filter: {to: props.account}}).on('data', async function (event) {
-                                    //alert('trsfr' + JSON.stringify(event))
-                                    setMintSucceeded(true);
-                                    setMintFailed(false);
-                                    setMinting(false);
-                                    setMinted(parseInt(minted) + parseInt(values[0]));
+                                // await vNFTABIWS.events.Transfer({filter: {to: props.account}}).on('data', async function (event) {
+                                //     //alert('trsfr' + JSON.stringify(event))
+                                //     setMintSucceeded(true);
+                                //     setMintFailed(false);
+                                //     setMinting(false);
+                                //     setMinted(parseInt(minted) + parseInt(values[0]));
+                                //
+                                //     setTimeout(() => {
+                                //         setMintSucceeded(false);
+                                //     }, "10000");
+                                // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);
+                                //     setTimeout(() => {
+                                //         setMintFailed(false);
+                                //     }, "5000");});
 
-                                    setTimeout(() => {
-                                        setMintSucceeded(false);
-                                    }, "10000");
-                                }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);
-                                    setTimeout(() => {
-                                        setMintFailed(false);
-                                    }, "5000");});
-
-                                setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting, props.library);
+                                setMinting(true); //await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting, props.library);
 
 
                             }}
                         > <>
-                            <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
-                                 src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
-                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} </>
+                            <img style={{width: '2.5ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
+                                 src='https://openseauserdata.com/files/265128aa51521c90f7905e5a43dcb456_new.svg'
+                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} with Polygon ETH </>
                         </button> : <button
                             className={cn(styles.link, {
                                 [styles.active]: true,
@@ -285,7 +285,7 @@ const Mint = (props) => {
                             onClick={() => {props.connectWallet()}}
                         > <div style={{color: 'white'}}>
                             <img style={{width: '4ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
-                                 src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg'
+                                 src='https://openseauserdata.com/files/265128aa51521c90f7905e5a43dcb456_new.svg'
                                  alt='ETH' />
                             Connect Wallet to Mint w/ Ξ</div>
                         </button>}
@@ -295,6 +295,20 @@ const Mint = (props) => {
                                 collectionDescription="Viridian testnet pack system"
                                 collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
                                 clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                className="my-custom-crossmint-button"
+                                mintConfig={{
+                                    type: "erc-721",
+                                    price: "0.22",
+                                    _numMint: values[0],
+                                    _to: props.account
+                                }}
+                            />}
+                            {publicMintingEnabled && <CrossmintPayButton
+                                collectionTitle="Viridian Genesis Pack Testnet"
+                                collectionDescription="Viridian testnet pack system"
+                                collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
+                                clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                paymentMethod="ETH"
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",
