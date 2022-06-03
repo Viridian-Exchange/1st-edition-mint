@@ -100,7 +100,7 @@ const Mint = (props) => {
                 </Breakpoint>
                 <Breakpoint medium up>
                     <div style={{textAlign: 'center'}}>
-                        <video autoPlay loop muted playsInline style={{marginTop: '-7ex', maxWidth: '30ex', borderRadius: '25px'}}>
+                        <video autoPlay loop muted playsInline style={{marginTop: '-8ex', maxWidth: '30ex', borderRadius: '25px'}}>
                             <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
                         </video>
                     </div>
@@ -205,12 +205,12 @@ const Mint = (props) => {
                         )}
                     />
                     </div>
-                    {/*<Modal*/}
-                    {/*    visible={minting}*/}
-                    {/*    onClose={() => setMinting(false)}*/}
-                    {/*>*/}
-                    {/*    <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />*/}
-                    {/*</Modal>*/}
+                    <Modal
+                        visible={minting}
+                        onClose={() => setMinting(false)}
+                    >
+                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
+                    </Modal>
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>
                             <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
@@ -249,22 +249,22 @@ const Mint = (props) => {
                                 //     setMinted(minted + values[0]);
                                 // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);});
 
-                                await vNFTABIWS.events.Transfer({filter: {to: props.account}}).on('data', async function (event) {
-                                    //alert('trsfr' + JSON.stringify(event))
-                                    setMintSucceeded(true);
-                                    setMintFailed(false);
-                                    setMinting(false);
-                                    setMinted(parseInt(minted) + parseInt(values[0]));
+                                // await vNFTABIWS.events.Transfer({filter: {to: props.account}}).on('data', async function (event) {
+                                //     //alert('trsfr' + JSON.stringify(event))
+                                //     setMintSucceeded(true);
+                                //     setMintFailed(false);
+                                //     setMinting(false);
+                                //     setMinted(parseInt(minted) + parseInt(values[0]));
+                                //
+                                //     setTimeout(() => {
+                                //         setMintSucceeded(false);
+                                //     }, "10000");
+                                // }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);
+                                //     setTimeout(() => {
+                                //         setMintFailed(false);
+                                //     }, "5000");});
 
-                                    setTimeout(() => {
-                                        setMintSucceeded(false);
-                                    }, "10000");
-                                }).on('err', (e) => {console.error(e); setMintFailed(true); setMinting(false);
-                                    setTimeout(() => {
-                                        setMintFailed(false);
-                                    }, "5000");});
-
-                                setMinting(true); await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting, props.library);
+                                setMinting(true); //await mint(props.account, values[0], setMintSucceeded, setMintFailed, setMinting, props.library);
 
 
                             }}

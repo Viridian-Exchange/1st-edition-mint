@@ -19,7 +19,9 @@ let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.a
 //TODO: PASS IN USERINFO AND UPDATE THIS WHEN PUSHED TO DYNAMO
 // SET FETCHED PROP SO WHEN THAT CHANGES, FETCHES THE USER AND SETS IT TO USERINFO
 const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintSucceeded, setMintFailed, setMinting }) => {
+    const [approving, setApproving] = useState(false);
     const [approved, setApproved] = useState(false);
+    const [mintLoading, setMintLoading] = useState(false);
     const [approveHash, setApproveHash] = useState('...');
     const [mintHash, setMintHash] = useState('...');
 
@@ -44,10 +46,12 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             //alert(parseInt(allowance) === 0)
             if (parseInt(allowance) === 0) {
                 //await approve(account, vpContractAddress);
+                setApproving(true);
                 await approveRegular(account, vpContractAddress);
 
                 await vtABI.events.Approval({filter: {to: account}}).on('data', async function (event) {
                     if (event) {
+                        setApproving(false);
                         setApproved(true);
                         //alert('found event')
                         await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
@@ -59,11 +63,13 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             else {
                 //alert('already approved')
                 setApproved(true);
+                setMintLoading(false);
                 await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
             }
 
-            await vpABI.events.Mint({filter: {to: account}}).on('data', async function (event) {
+            await vpABI.events.Transfer({filter: {to: account}}).on('data', async function (event) {
                 if (event) {
+                    setMintLoading(false);
                     setMintSucceeded(true)
                     setMinting(false);
                     setMintHash(event.transactionHash);
@@ -73,6 +79,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
         catch (e) {
             //TODO: Put this back when ready
             console.error(e);
+            setMintLoading(false);
             setMinting(false);
         }
     }, []);
@@ -85,15 +92,30 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             <div className={styles.btns} style={{textAlign: 'center'}}>
                 <h2 className={styles.pending}>
                     {!approved ?
-                        <div className={styles.info}><img src="/circle.svg" style={{maxWidth: '3ex'}}/> Approve Polygon ETH
-                        </div> : <div className={styles.info}><img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> Approve Polygon ETH
+                        <div className={styles.info}> {!approving ? <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
+                            <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                        </svg>}
+                            Approve Polygon ETH
+                        </div> : <div className={styles.info}>
+                            {!approving ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
+                                <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg> }
+                            Approve Polygon ETH
                         </div>
                     }
                     <p2 className={styles.hash}>{shortenAddress(approveHash)}</p2>
                 </h2>
                 <h2 className={styles.pending}>
-                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-8ex'}}><img src="/circle.svg" style={{maxWidth: '3ex'}}/> Mint</div> :
-                        <div className={styles.info} style={{marginLeft: '-8ex'}}><img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> Mint</div>}
+                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-8ex'}}>
+                        {!mintLoading ?  <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} viewBox="0 0 50 50">
+                            <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                        </svg>}
+                            Mint</div> :
+                        <div className={styles.info} style={{marginLeft: '-8ex'}}>
+                            {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} viewBox="0 0 50 50">
+                                <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            </svg>}
+                            Mint</div>}
                     <p2 className={styles.hash}>{shortenAddress(mintHash)}</p2>
                 </h2>
             </div>
@@ -109,8 +131,12 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                     <p2 className={styles.hash}>{shortenAddress(approveHash)}</p2>
                 </h2>
                 <h2 className={styles.pending}>
-                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-4.3ex'}}><img src="/circle.svg" style={{maxWidth: '3ex'}}/> Mint</div> :
-                        <div className={styles.info} style={{marginLeft: '-4.3ex'}}><img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> Mint</div>}
+                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-4.3ex'}}>
+                        {!mintLoading ? <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <img src="/circle.svg" style={{maxWidth: '3ex'}}/>}
+                            Mint</div> :
+                        <div className={styles.info} style={{marginLeft: '-4.3ex'}}>
+                            {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> }
+                                Mint</div>}
                     <p2 className={styles.hash}>{shortenAddress(mintHash)}</p2>
                 </h2>
             </div>

@@ -142,9 +142,9 @@ export async function tokenAllowance(from, exchangeAddress) {
 
     let infinite_approve_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935'; //(2^256 - 1 )
 
-    alert(from + " " + exchangeAddress)
+    //alert(from + " " + exchangeAddress)
     let tx = await vTABI.methods.allowance(from, exchangeAddress).call();
-    alert(tx);
+    //alert(tx);
 
     // await tx.on("transactionHash", function (hash) {
     //     console.log(`Transaction hash is ${hash}`);
@@ -207,7 +207,7 @@ export async function approveRegular(from, exchangeAddress) {
 
     let infinite_approve_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935'; //(2^256 - 1 )
     
-    alert(from + " " + exchangeAddress);
+    //alert(from + " " + exchangeAddress);
     let tx = await vTABI.methods.approve(exchangeAddress, infinite_approve_amount).send({from: from, signatureType: biconomy.EIP712_SIGN});
 
     // await tx.on("transactionHash", function (hash) {
