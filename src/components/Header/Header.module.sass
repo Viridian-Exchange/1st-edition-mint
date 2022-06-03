@@ -3,7 +3,7 @@
 .header
     //position: relative
     z-index: 20
-    padding: 20px 0
+    padding: 20px 10px
     border-bottom: 1px solid $neutrals6
     +m
         padding: 48px 0 24px
@@ -30,11 +30,28 @@
 //    top: 0
 //    width: 100%
 
+.pics
+    width: 5ex
+    max-height: 2.5ex
+    margin-top: 0.7ex
+    margin-left: 2ex
 
 .logo
     position: relative
     z-index: 12
     display: inline-block
+    flex-shrink: 0
+    width: 128px
+    margin-right: 32px
+    +d
+        margin-right: auto
+    img
+        width: 100%
+
+.logoCollab
+    position: relative
+    z-index: 12
+    display: flex
     flex-shrink: 0
     width: 128px
     margin-right: 32px
@@ -87,6 +104,9 @@
         margin: 0 0 40px
         border: none
     +dark
+        border-color: $neutrals3
+    &.active
+        margin-left: 150px
         border-color: $neutrals3
 
 .link
@@ -188,3 +208,8 @@
             transform: translateY(-4px)
         &:after
             transform: translateY(3px)
+
+.collab
+    display: flex
+    justify-content: space-between
+    margin-right: 1ex

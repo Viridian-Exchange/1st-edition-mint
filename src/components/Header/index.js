@@ -9,7 +9,15 @@ import  { Breakpoint } from 'react-socks';
 
 const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
+  const [collabLogo, setCollabLogo] = useState(false);
 
+  useEffect(() => {
+    let url = window.location.href;
+
+    if (url.includes("ntwrk")) {
+      setCollabLogo(true);
+    }
+  }, [])
 
   return (
       <>
@@ -88,16 +96,31 @@ const Headers = (props) => {
       <Breakpoint medium up>
     <header className={styles.header}>
       <div className={cn("container", styles.container)}>
-        <Link className={styles.logo} to="/">
+        {!collabLogo ? <Link className={styles.logo} to="/">
           <Image
+              className={styles.pic}
+              src="/logo_words.svg"
+              srcDark="/logo_words.svg"
+              alt="Viridian Exchange"
+          /> </Link> :
+            <Link className={styles.logoCollab} to="/">
+            <Image
             className={styles.pic}
             src="/logo_words.svg"
             srcDark="/logo_words.svg"
             alt="Viridian Exchange"
           />
-        </Link>
+              <div style={{textAlign: 'center', color: 'white', marginLeft: '1ex',
+                marginTop: '0.5ex', marginRight: '-1ex', fontWeight: 'bold'}}>X</div>
+          <Image
+              className={styles.pics}
+              src="/ntwrk_logo_white.png"
+              srcDark="/ntwrk_logo_white.png"
+              alt="NTWRK"
+          />
+            </Link>}
           <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
-            <nav className={styles.nav}>
+            <nav className={cn(styles.nav, { [styles.active]: collabLogo })}>
               <Link
                   className={styles.link}
                   activeClassName={styles.active}
