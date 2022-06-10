@@ -28,21 +28,21 @@ const providerOptions = {
         options: {
             appName: "Viridian Exchange", // Required
             rpc: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js", // Optional if `infuraId` is provided; otherwise it's required
-            chainId: 4, // Optional. It defaults to 1 if not provided
+            chainId: 137, // Optional. It defaults to 1 if not provided
             darkMode: true // Optional. Use dark theme, defaults to false
         }
     },
     walletconnect: {
         package: WalletConnectProvider, // required
         options: {
-            rpc: {4: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"},
+            rpc: {137: "https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"},
         }
     },
 };
 
 const networkParams = {
     "0x0100": {
-        chainId: "0x0100",
+        chainId: '0x13881',
         rpcUrls: ["https://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"],
         chainName: "Polygon Mainnet",
         nativeCurrency: { name: "Ether", decimals: 18, symbol: "ETH" },
@@ -70,6 +70,7 @@ function App() {
     const [account, setAccount] = useState();
     const [provider, setProvider] = useState();
     const [library, setLibrary] = useState();
+    const [biconomyLib, setBiconomy] = useState();
     const [signature, setSignature] = useState("");
     const [error, setError] = useState("");
     const [chainId, setChainId] = useState();
@@ -83,6 +84,18 @@ function App() {
         //try {
             const provider = await web3Modal.connect();
             let library = new Web3(provider);
+            let biconomy = new Biconomy(provider, {apiKey: "TVCsgQVfk.a6031565-1cb6-40da-8a60-2ffec22e3bed", debug: true});
+
+            biconomy.onEvent(biconomy.READY, () => {
+                // Initialize your dapp here like getting user accounts etc
+                //alert("initialized");
+                setGaslessReady(true);
+                setBiconomy(biconomy);
+            }).onEvent(biconomy.ERROR, (error, message) => {
+                // Handle error while initializing mexa
+                alert("BICO ERR: " + JSON.stringify(error));
+            });
+
             setLibrary(library);
             //alert(JSON.stringify(library.givenProvider));
             const accounts = await library.eth.getAccounts();
@@ -109,33 +122,45 @@ function App() {
         setMessage(msg);
     };
 
-    const switchNetwork = async () => {
-        try {
-            await window.ethereum.request({
-                method: "wallet_switchEthereumChain",
-                params: [{ chainId: toHex(4) }]
-            });
-        } catch (switchError) {
-            //alert(JSON.stringify(switchError.code))
-            if (switchError.code === 4902) {
-                try {
-                    await window.ethereum.request({
-                        method: 'wallet_addEthereumChain',
-                        params: [
-                            {
-                                chainName: 'Polygon Mainnet',
-                                chainId: toHex(137),
-                                nativeCurrency: {
-                                    name: 'Polygon',
-                                    symbol: 'MATIC',
-                                    decimals: 18
-                                },
-                                rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
-                                blockExplorerUrls: ['https://polygonscan.com/']
-                            }]
-                            });
-                } catch (error) {
-                    setError(error);
+    const switchNetwork = async (toETH) => {
+        if (toETH) {
+            try {
+                await window.ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{chainId: toHex(1)}]
+                });
+            } catch (switchError) {
+                setError(error);
+            }
+        }
+        else {
+            try {
+                await window.ethereum.request({
+                    method: "wallet_switchEthereumChain",
+                    params: [{chainId: toHex(4)}]
+                });
+            } catch (switchError) {
+                //alert(JSON.stringify(switchError.code))
+                if (switchError.code === 4902) {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_addEthereumChain',
+                            params: [
+                                {
+                                    chainName: 'Polygon Mainnet',
+                                    chainId: toHex(4),
+                                    nativeCurrency: {
+                                        name: 'Polygon',
+                                        symbol: 'MATIC',
+                                        decimals: 18
+                                    },
+                                    rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
+                                    blockExplorerUrls: ['https://polygonscan.com/']
+                                }]
+                        });
+                    } catch (error) {
+                        setError(error);
+                    }
                 }
             }
         }
@@ -164,7 +189,7 @@ function App() {
     useEffect(async () => {
         //alert(chainId);
         if (toHex(chainId) !== toHex(4)) {
-            await switchNetwork();
+            await switchNetwork(false);
         }
     }, [chainId])
 
@@ -212,8 +237,8 @@ function App() {
                     exact
                     path="/mint"
                     render={() => (
-                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Mint library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
+                        <Page library={library} chainId={chainId} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Mint setGaslessReady={setGaslessReady} library={library} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} gaslessReady={gaslessReady} connectWallet = {connectWallet} />
                         </Page>
                     )}
                 />
@@ -221,8 +246,8 @@ function App() {
                     exact
                     path="/open"
                     render={() => (
-                        <Page biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Open biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
+                        <Page library={library} chainId={chainId} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
+                          <Open setGaslessReady={setGaslessReady} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
                         </Page>
                     )}
                 />
@@ -230,7 +255,7 @@ function App() {
                     exact
                     path="/verify"
                     render={() => (
-                        <Page>
+                        <Page library={library} chainId={chainId}>
                           <Verify  />
                         </Page>
                     )}

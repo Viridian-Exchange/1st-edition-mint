@@ -53,7 +53,7 @@ const Mint = (props) => {
     const renderer = ({ hours, minutes, seconds, completed }) => {
         if (completed) {
             // Render a completed state
-            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Starting Whitelist Mint...</h1>
+            return <h1 style={{marginTop: '2ex', textAlign: 'center'}}>Loading Genesis Mint...</h1>
         } else {
             // Render a countdown
             return <div><h1 style={{textAlign: 'center', color: 'gray', marginTop: '2ex'}}> Whitelist mint starts in:
@@ -218,7 +218,7 @@ const Mint = (props) => {
                         </div>
                     </h3>
                     <div style={{textAlign: 'center', marginTop: '4ex'}}>
-                        {props.account ? <div> {!minting ? <button
+                        {props.account ? <div> {!minting ? <> {props.gaslessReady ? <button
                             className={cn(styles.link, {})}
                             onClick={async () => {
                                 const web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.alchemyapi.io/v2/LAxJKtplSWDfvNU0-v7K77WOeCWYb4Js"));
@@ -271,13 +271,21 @@ const Mint = (props) => {
                         > <>
                             <img style={{width: '2.5ex', marginTop: '-.5ex', marginLeft: '-1.5ex', marginRight: '1ex'}}
                                  src='https://openseauserdata.com/files/265128aa51521c90f7905e5a43dcb456_new.svg'
-                                 alt='ETH' /> Mint {values[0]} Pack{values[0] > 1 && 's'} with Polygon ETH </>
+                                 alt='ETH' /> Buy {values[0]} Pack{values[0] > 1 && 's'} with Polygon ETH </>
                         </button> : <button
                             className={cn(styles.link, {
                                 [styles.active]: true,
                             })}
                         > <div>
-                            <ReactLoading type={'spin'} color={'#bf9a36'} height={'25%'} width={'25%'} /></div> <div style={{marginLeft: '6ex', marginTop: '-2.75ex'}}>Minting...</div>
+                            <ReactLoading type={'spin'} color={'#bf9a36'} height={'16%'} width={'16%'} /></div>
+                                <div style={{marginLeft: '6ex', marginTop: '-2.75ex'}}>Loading Gasless...</div>
+                        </button>}</> : <button
+                            className={cn(styles.link, {
+                                [styles.active]: true,
+                            })}
+                        > <div>
+                            <ReactLoading type={'spin'} color={'#bf9a36'} height={'25%'} width={'25%'} /></div>
+                                <div style={{marginLeft: '6ex', marginTop: '-2.75ex'}}>Minting...</div>
                         </button>}</div> : <button
                             className={cn(styles.link, {
                                 [styles.active]: false,
@@ -294,11 +302,11 @@ const Mint = (props) => {
                                 collectionTitle="Viridian Genesis Pack Testnet"
                                 collectionDescription="Viridian testnet pack system"
                                 collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
-                                clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                clientId="1ed33aeb-27ad-497d-9c5f-2877d230cacc"
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",
-                                    price: "0.22",
+                                    price: "600",
                                     _numMint: values[0],
                                     _to: props.account
                                 }}
@@ -307,12 +315,12 @@ const Mint = (props) => {
                                 collectionTitle="Viridian Genesis Pack Testnet"
                                 collectionDescription="Viridian testnet pack system"
                                 collectionPhoto="https://lh3.googleusercontent.com/hEAvHhkzaJZo4oBE7cVaL7bRjVgyoHgKmuBu9Zhl6vVjM8pe3cGU9yDVU4OxHBm2FR84KcmRSsJ0UXlRqJwJyLDP6jnPvWxS_9QvYaQ=h600"
-                                clientId="e2b98186-642d-430a-ab76-57cb49d80a11"
+                                clientId="1ed33aeb-27ad-497d-9c5f-2877d230cacc"
                                 paymentMethod="ETH"
                                 className="my-custom-crossmint-button"
                                 mintConfig={{
                                     type: "erc-721",
-                                    price: "0.22",
+                                    price: "600",
                                     _numMint: values[0],
                                     _to: props.account
                                 }}
@@ -337,7 +345,8 @@ const Mint = (props) => {
                                  labelClassName="barLabel"
                                  completed={40} customLabel={minted + "/2000 Minted"} />
                 </div>}
-                {/*{props.gaslessReady + ""}*/}
+
+                {props.gaslessReady + ""}
             </div>
         </div>
     </>

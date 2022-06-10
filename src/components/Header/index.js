@@ -24,6 +24,28 @@ const Headers = (props) => {
         <Breakpoint small down>
           <header className={styles.header}>
             <div className={cn("container", styles.container)}>
+              {!collabLogo ? <Link className={styles.logo} to="/">
+                    <Image
+                        src="/logo_words.svg"
+                        srcDark="/logo_words.svg"
+                        alt="Viridian Exchange"
+                    /> </Link> :
+                  <Link className={styles.logoCollab} to="/">
+                    <Image
+                        className={styles.pic}
+                        src="/logo_words.svg"
+                        srcDark="/logo_words.svg"
+                        alt="Viridian Exchange"
+                    />
+                    <div style={{textAlign: 'center', color: 'white', marginLeft: '1ex',
+                      marginTop: '0.5ex', marginRight: '-1ex', fontWeight: 'bold'}}>X</div>
+                    <Image
+                        className={styles.pics}
+                        src="/ntwrk_logo_white.png"
+                        srcDark="/ntwrk_logo_white.png"
+                        alt="NTWRK"
+                    />
+                  </Link>}
                 <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
                   <nav className={styles.nav}>
                     <Link

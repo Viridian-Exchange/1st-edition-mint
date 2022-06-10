@@ -22,29 +22,39 @@ button.my-custom-crossmint-button {
   margin-top: -1ex;
 }
 
-.crossmintParagraph-0-2-3.crossmintParagraph-d3-0-2-7 {
-  visibility: hidden;
-}
-.crossmintParagraph-0-2-3.crossmintParagraph-d3-0-2-7:after {
-  content: 'Mint Packs with Card';
-  visibility: visible;
-  display: block;
-  position: absolute;
-  color: white;
-  margin-top: -2.2ex;
-  margin-left: -0.5ex;
-}
+/*.crossmintImg-0-2-2 {*/
+/*  display: block;*/
+/*  -moz-box-sizing: border-box;*/
+/*  box-sizing: border-box;*/
+/*  background: url(https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg) no-repeat;*/
+/*  width: 64px; !* Width of new image *!*/
+/*  height: 64px; !* Height of new image *!*/
+/*  padding-left: 21px; !* Equal to width of new image *!*/
+/*}*/
 
-.crossmintParagraph-0-2-3.crossmintParagraph-d7-0-2-11 {
-  visibility: hidden;
-}
+/*.crossmintParagraph-0-2-3.crossmintParagraph-d3-0-2-7 {*/
+/*  visibility: hidden;*/
+/*}*/
+/*.crossmintParagraph-0-2-3.crossmintParagraph-d3-0-2-7:after {*/
+/*  content: 'Mint Packs with Card';*/
+/*  visibility: visible;*/
+/*  display: block;*/
+/*  position: absolute;*/
+/*  color: white;*/
+/*  margin-top: -2.2ex;*/
+/*  margin-left: -0.5ex;*/
+/*}*/
 
-.crossmintParagraph-0-2-3.crossmintParagraph-d7-0-2-11:after {
-  content: 'Mint Packs with ETH';
-  visibility: visible;
-  display: block;
-  position: absolute;
-  color: white;
-  margin-top: -2.2ex;
-  margin-left: -0.5ex;
-}
+/*.crossmintParagraph-0-2-3.crossmintParagraph-d7-0-2-11 {*/
+/*  visibility: hidden;*/
+/*}*/
+
+/*.crossmintParagraph-0-2-3.crossmintParagraph-d7-0-2-11:after {*/
+/*  content: 'Mint Packs with ETH';*/
+/*  visibility: visible;*/
+/*  display: block;*/
+/*  position: absolute;*/
+/*  color: white;*/
+/*  margin-top: -2.2ex;*/
+/*  margin-left: -0.5ex;*/
+/*}*/
