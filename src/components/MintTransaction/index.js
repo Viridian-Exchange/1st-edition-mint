@@ -93,12 +93,12 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 <h2 className={styles.pending}>
                     {!approved ?
                         <div className={styles.info}> {!approving ? <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
-                            <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                            <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
-                            Approve Polygon ETH
+                            <div style={{marginLeft: '3.5ex', marginTop: '0.25ex'}}>Approve Polygon ETH</div>
                         </div> : <div className={styles.info}>
                             {!approving ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
-                                <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                             </svg> }
                             Approve Polygon ETH
                         </div>
@@ -107,13 +107,13 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 </h2>
                 <h2 className={styles.pending}>
                     {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-8ex'}}>
-                        {!mintLoading ?  <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} viewBox="0 0 50 50">
-                            <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                        {!mintLoading ?  <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
+                            <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
-                            Mint</div> :
+                            <div style={{marginLeft: '3.5ex', marginTop: '0.25ex'}}>Mint</div></div> :
                         <div className={styles.info} style={{marginLeft: '-8ex'}}>
                             {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} viewBox="0 0 50 50">
-                                <circle className={styles.path} cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+                                <circle className={styles.path} r="20" fill="none" stroke-width="5"></circle>
                             </svg>}
                             Mint</div>}
                     <p2 className={styles.hash}>{shortenAddress(mintHash)}</p2>
