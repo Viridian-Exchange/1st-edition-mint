@@ -111,7 +111,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                         {!mintLoading ?  <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} style={{marginTop: '4ex', marginRight: '4ex'}}>
                             <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
-                        {!mintLoading ? <div style={{marginLeft: '8ex', marginTop: '-2.5ex'}}>Mint</div> : <div style={{marginLeft: '8.5ex', marginTop: '0.5ex'}}>Minte</div>}</div> :
+                        {!mintLoading ? <div style={{marginLeft: '8ex', marginTop: '-2.5ex'}}>Mint</div> : <div style={{marginLeft: '8ex', marginTop: '0.5ex'}}>Mint</div>}</div> :
                         <div className={styles.info}>
                             {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
                                 <circle className={styles.path} r="20" fill="none" stroke-width="5"></circle>
