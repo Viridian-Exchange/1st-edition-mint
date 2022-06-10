@@ -187,7 +187,7 @@ const Open = (props) => {
                         <ReactLoading type={'spin'} color={'#bf9a36'} height={'25%'} width={'25%'} /> <div style={{marginLeft: '6ex', marginTop: '-2.75ex', marginBottom: '1ex'}}>Opening...</div>
                     </button>}
 
-                    {!loadingOpening && <>{streamerModeActive ? <button
+                    {props.gaslessReady ? <>{!loadingOpening && <>{streamerModeActive ? <button
                         className={cn(styles.link, {
                         })}
                         onClick={async () => {setLoadingOpening(true); await open(props.account, tokenIds[currentIndex], setLoadingOpening, "", setMinted).then(() =>
@@ -205,7 +205,13 @@ const Open = (props) => {
                             <img style={{width: '4ex', marginTop: '-.5ex', height: '6ex', marginRight: '1ex'}}
                                  src='/trading_card_icon.svg'
                                  alt='ETH' /> {"Open Pack " + idParse(packNums[currentIndex])}
-                        </button>}</>}
+                        </button>}</>}</> : <button
+                        className={cn(styles.link, {
+                        })}
+                        style={{color: 'black'}}
+                    >
+                        <ReactLoading type={'spin'} color={'#bf9a36'} height={'20%'} width={'20%'} /> <div style={{marginLeft: '6ex', marginTop: '-3ex', marginBottom: '1ex'}}>Gasless Loading...</div>
+                    </button>}
                 </div>}
             </div>
             <div style={{textAlign: 'center', marginTop: '5ex'}}>

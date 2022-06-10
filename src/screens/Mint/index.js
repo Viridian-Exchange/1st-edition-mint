@@ -345,8 +345,6 @@ const Mint = (props) => {
                                  labelClassName="barLabel"
                                  completed={40} customLabel={minted + "/2000 Minted"} />
                 </div>}
-
-                {props.gaslessReady + ""}
             </div>
         </div>
     </>

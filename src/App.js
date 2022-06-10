@@ -247,7 +247,7 @@ function App() {
                     path="/open"
                     render={() => (
                         <Page library={library} chainId={chainId} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Open setGaslessReady={setGaslessReady} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
+                          <Open setGaslessReady={setGaslessReady} gaslessReady={gaslessReady} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
                         </Page>
                     )}
                 />
