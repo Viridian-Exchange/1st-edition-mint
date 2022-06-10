@@ -209,7 +209,8 @@ const Mint = (props) => {
                         visible={minting}
                         onClose={() => setMinting(false)}
                     >
-                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting} />
+                        <MintTransaction mintSucceeded={mintSucceeded} setMintFailed={setMintFailed} numPacks={values[0]} setMintSucceeded={setMintSucceeded} account={props.account} setMinting={setMinting}
+                                         library={props.library} />
                     </Modal>
                     <h3 style={{marginBottom: '2ex', textAlign: 'center'}}>
                         <div className={styles.wallet}>

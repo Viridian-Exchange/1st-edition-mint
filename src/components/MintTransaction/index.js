@@ -18,7 +18,7 @@ let web3WS = new Web3(new Web3.providers.WebsocketProvider( "wss://eth-rinkeby.a
 
 //TODO: PASS IN USERINFO AND UPDATE THIS WHEN PUSHED TO DYNAMO
 // SET FETCHED PROP SO WHEN THAT CHANGES, FETCHES THE USER AND SETS IT TO USERINFO
-const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintSucceeded, setMintFailed, setMinting }) => {
+const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintSucceeded, setMintFailed, setMinting, library }) => {
     const [approving, setApproving] = useState(false);
     const [approved, setApproved] = useState(false);
     const [mintLoading, setMintLoading] = useState(false);
@@ -54,7 +54,8 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                         setApproving(false);
                         setApproved(true);
                         //alert('found event')
-                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
+                        setMintLoading(true);
+                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
 
                         setApproveHash(event.transactionHash);
                     }
@@ -63,8 +64,8 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             else {
                 //alert('already approved')
                 setApproved(true);
-                setMintLoading(false);
-                await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting);
+                setMintLoading(true);
+                await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
             }
 
             await vpABI.events.Transfer({filter: {to: account}}).on('data', async function (event) {
@@ -96,8 +97,8 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                             <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
                             <div style={{marginLeft: '3.5ex', marginTop: '0.25ex'}}>Approve Polygon ETH</div>
-                        </div> : <div className={styles.info}>
-                            {!approving ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
+                        </div> : <div className={styles.info} style={{marginLeft: '0ex'}}>
+                            {!approving ? <img src="/circle_check.svg" style={{maxWidth: '3ex', marginRight: '0.5ex'}}/> : <svg className={styles.spinner}>
                                 <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                             </svg> }
                             Approve Polygon ETH
@@ -106,12 +107,12 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                     <p2 className={styles.hash}>{shortenAddress(approveHash)}</p2>
                 </h2>
                 <h2 className={styles.pending}>
-                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-8ex'}}>
+                    {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-10ex'}}>
                         {!mintLoading ?  <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
                             <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
-                            <div style={{marginLeft: '3.5ex', marginTop: '0.25ex'}}>Mint</div></div> :
-                        <div className={styles.info} style={{marginLeft: '-8ex'}}>
+                            <div style={{marginLeft: '8.5ex', marginTop: '-2.5ex'}}>Mint</div></div> :
+                        <div className={styles.info}>
                             {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner} viewBox="0 0 50 50">
                                 <circle className={styles.path} r="20" fill="none" stroke-width="5"></circle>
                             </svg>}
