@@ -27,7 +27,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
 
     const shortenAddress = (address) => {
         if (address) {
-            return address.toString().substring(0, 6) + "..." + address.toString().substring(38);
+            return address.toString().substring(0, 6) + "..." + address.toString().substring(34, 38);
         }
     }
 
@@ -43,11 +43,19 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             let vpABI = new web3WS.eth.Contract(vGPackJSON['abi'], vpContractAddress);
             let vtABI = new web3WS.eth.Contract(vTPackJSON, vtContractAddress);
 
+            await vpABI.events.Transfer({filter: {to: account}}).on('data', async function (event) {
+                if (event) {
+                    setMintLoading(false);
+                    setMintSucceeded(true)
+                    //setMinting(false);
+                    setMintHash(event.transactionHash);
+                }
+            });
+
             //alert(parseInt(allowance) === 0)
             if (parseInt(allowance) === 0) {
                 //await approve(account, vpContractAddress);
                 setApproving(true);
-                await approveRegular(account, vpContractAddress);
 
                 await vtABI.events.Approval({filter: {to: account}}).on('data', async function (event) {
                     if (event) {
@@ -55,11 +63,12 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                         setApproved(true);
                         //alert('found event')
                         setMintLoading(true);
-                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
-
                         setApproveHash(event.transactionHash);
+                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
                     }
                 });
+
+                await approveRegular(account, vpContractAddress);
             }
             else {
                 //alert('already approved')
@@ -67,15 +76,6 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 setMintLoading(true);
                 await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
             }
-
-            await vpABI.events.Transfer({filter: {to: account}}).on('data', async function (event) {
-                if (event) {
-                    setMintLoading(false);
-                    setMintSucceeded(true)
-                    setMinting(false);
-                    setMintHash(event.transactionHash);
-                }
-            });
         }
         catch (e) {
             //TODO: Put this back when ready
@@ -104,7 +104,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                             Approve Polygon ETH
                         </div>
                     }
-                    <p2 className={styles.hash}>{shortenAddress(approveHash)}</p2>
+                    <a className={styles.hash} href={"https://rinkeby.etherscan.io/tx/" + approveHash} target="_blank" rel="noopener noreferrer">{shortenAddress(approveHash)}</a>
                 </h2>
                 <h2 className={styles.pending}>
                     {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-10ex'}}>
@@ -117,7 +117,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                                 <circle className={styles.path} r="20" fill="none" stroke-width="5"></circle>
                             </svg>}
                             Mint</div>}
-                    <p2 className={styles.hash}>{shortenAddress(mintHash)}</p2>
+                    <a className={styles.hash} href={"https://rinkeby.etherscan.io/tx/" + mintHash} target="_blank" rel="noopener noreferrer">{shortenAddress(mintHash)}</a>
                 </h2>
             </div>
         </Breakpoint>
@@ -129,7 +129,7 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                         </div> : <div className={styles.info}><img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> Approve ETH
                         </div>
                     }
-                    <p2 className={styles.hash}>{shortenAddress(approveHash)}</p2>
+                    <a className={styles.hash} href={"https://rinkeby.etherscan.io/tx/" + approveHash} target="_blank" rel="noopener noreferrer">{shortenAddress(approveHash)}</a>
                 </h2>
                 <h2 className={styles.pending}>
                     {!mintSucceeded ? <div className={styles.info} style={{marginLeft: '-4.3ex'}}>
@@ -138,11 +138,11 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                         <div className={styles.info} style={{marginLeft: '-4.3ex'}}>
                             {!mintLoading ? <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> : <img src="/circle_check.svg" style={{maxWidth: '3ex'}}/> }
                                 Mint</div>}
-                    <p2 className={styles.hash}>{shortenAddress(mintHash)}</p2>
+                    <a className={styles.hash} href={"https://rinkeby.etherscan.io/tx/" + mintHash} target="_blank" rel="noopener noreferrer">{shortenAddress(mintHash)}</a>
                 </h2>
             </div>
         </Breakpoint>
-        {approved && mintSucceeded && <button className={styles.link}>Close</button>}
+        {approved && mintSucceeded && <button className={styles.link} onClick={() => setMinting(false)}>Close</button>}
     </div>
   );
 };
