@@ -21,6 +21,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import {toHex, truncateAddress} from "./utils/utils";
 import { ethers } from "ethers";
+import config from "./local-dev-config";
 
 const providerOptions = {
     coinbasewallet: {
@@ -127,7 +128,7 @@ function App() {
             try {
                 await window.ethereum.request({
                     method: "wallet_switchEthereumChain",
-                    params: [{chainId: toHex(1)}]
+                    params: [{chainId: config.eth_chain_id.chain_id_hex}]
                 });
             } catch (switchError) {
                 setError(error);
@@ -137,7 +138,7 @@ function App() {
             try {
                 await window.ethereum.request({
                     method: "wallet_switchEthereumChain",
-                    params: [{chainId: toHex(4)}]
+                    params: [{chainId: config.polygon_chain_id.chain_id_hex}]
                 });
             } catch (switchError) {
                 //alert(JSON.stringify(switchError.code))
@@ -148,7 +149,7 @@ function App() {
                             params: [
                                 {
                                     chainName: 'Polygon Mainnet',
-                                    chainId: toHex(4),
+                                    chainId: config.polygon_chain_id.chain_id_hex,
                                     nativeCurrency: {
                                         name: 'Polygon',
                                         symbol: 'MATIC',
@@ -247,7 +248,7 @@ function App() {
                     path="/open"
                     render={() => (
                         <Page library={library} chainId={chainId} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} connectWallet = {connectWallet} disconnect={disconnect}>
-                          <Open setGaslessReady={setGaslessReady} gaslessReady={gaslessReady} biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
+                          <Open setGaslessReady={setGaslessReady} gaslessReady={gaslessReady}F biconomyFetched={biconomyFetched} account={account} setAccount={setAccount} />
                         </Page>
                     )}
                 />

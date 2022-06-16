@@ -79,11 +79,21 @@ const Open = (props) => {
     }, [fetched, props]);
 
     let slides = [
-        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
-        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
-        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
-        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />,
-        <video style={{width: '40ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='http://content.viridianexchange.com/videos/transition-short-crop.mp4' alt='ETH' />
+        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+        </video>,
+        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+        </video>,
+        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+        </video>,
+        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+        </video>,
+        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+        </video>
     ]
 
     const runOpeningAnimation = async () => {
@@ -138,7 +148,7 @@ const Open = (props) => {
                     </div>
                 </Breakpoint> }
                 {slides.length > 0 && !showOpeningAnimation && <Breakpoint medium up>
-                    <div style={{textAlign: 'center', minHeight: '65ex'}}>
+                    <div style={{textAlign: 'center', minHeight: '75ex', height: '100ex'}}>
                         <Carousel slides={slides} onSlideChange={callback} arrows={true}/>
                     </div>
                 </Breakpoint>}
@@ -177,7 +187,7 @@ const Open = (props) => {
                         </a>
                     </div>
                 }
-                {slides.length > 0 && <div style={{textAlign: 'center', marginTop: '4ex'}}>
+                {slides.length > 0 && <div style={{textAlign: 'center', marginTop: '-50ex'}}>
                     {/*{JSON.stringify(props)}*/}
                     {loadingOpening && !showOpeningAnimation && <button
                         className={cn(styles.link, {

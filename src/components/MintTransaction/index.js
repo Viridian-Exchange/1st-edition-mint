@@ -57,11 +57,22 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
                 //await approve(account, vpContractAddress);
                 setApproving(true);
 
+                await vtABI.events.Approval({filter: {from: account}}).on('data', async function (event) {
+                    if (event) {
+                        setApproving(false);
+                        setApproved(true);
+                        //alert('APPROVED FROM')
+                        setMintLoading(true);
+                        setApproveHash(event.transactionHash);
+                        await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
+                    }
+                });
+
                 await vtABI.events.Approval({filter: {to: account}}).on('data', async function (event) {
                     if (event) {
                         setApproving(false);
                         setApproved(true);
-                        //alert('found event')
+                        //alert('APPROVED TO')
                         setMintLoading(true);
                         setApproveHash(event.transactionHash);
                         await mint(account, numPacks, setMintSucceeded, setMintFailed, setMinting, library);
@@ -93,7 +104,9 @@ const MintTransaction = ({ className, mintSucceeded, numPacks, account, setMintS
             <div className={styles.btns} style={{textAlign: 'center'}}>
                 <h2 className={styles.pending}>
                     {!approved ?
-                        <div className={styles.info}> {!approving ? <img src="/circle.svg" style={{maxWidth: '3ex'}}/> : <svg className={styles.spinner}>
+                        <div className={styles.info}> {!approving ? <svg className={styles.spinner}>
+                            <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
+                        </svg> : <svg className={styles.spinner}>
                             <circle className={styles.path} cx="25" cy="25" r="15" fill="none" stroke-width="5"></circle>
                         </svg>}
                             <div style={{marginLeft: '4ex', marginTop: '0.25ex'}}>Approve Polygon ETH</div>
