@@ -11,6 +11,18 @@ import ReactLoading from "react-loading";
 import { BlurTransition } from "react-transitions-library";
 import Switch from "../../components/Switch";
 
+const slides = [
+    <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+        <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+    </video>,
+    <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+        <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+    </video>,
+    <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
+        <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
+    </video>,
+]
+
 const Open = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [values, setValues] = useState([1]);
@@ -77,24 +89,6 @@ const Open = (props) => {
             setFetched(false);
         }
     }, [fetched, props]);
-
-    let slides = [
-        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
-            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
-        </video>,
-        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
-            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
-        </video>,
-        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
-            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
-        </video>,
-        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
-            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
-        </video>,
-        <video autoPlay loop muted playsInline style={{marginTop: '0ex', maxWidth: '22ex', borderRadius: '25px'}}>
-            <source src='https://content.viridianexchange.com/videos/GenesisPackLoopCrop.mp4' type="video/mp4"/>
-        </video>
-    ]
 
     const runOpeningAnimation = async () => {
         setShowOpeningAnimation(true); await setTimeout(function() { setStartFade(true); setCurVideo('http://content.viridianexchange.com/videos/transition-short-crop.mp4') }, 9100); await setTimeout(function() { setCurVideo('https://content.viridianexchange.com/videos/PikachuLoop.mp4');
